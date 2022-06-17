@@ -1,0 +1,147 @@
+.prodtable{
+    margin-left: 460px;
+    /* padding-left: 300px; */
+  }
+ 
+  .prod-table table {
+   
+    border: 1px solid brown;
+    box-sizing: border-box;
+  }
+    
+  .prod-table th {
+    font-size: 17px;
+    background:cornsilk;
+    border: 3px solid brown;
+    color: black;
+    padding: 2.5rem
+  }
+    
+  .prod-table td {
+    padding: 1.5rem;
+    border: 1px solid brown;
+    color: black;
+    background:cornsilk;
+    font-size: 15px;
+  }
+
+
+  .addproduct {
+   
+    margin: auto;
+    margin-top: 20px;
+    background-color: cadetblue;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 820px;
+    padding: 20px;
+    width: 320px;
+    
+  }
+  
+  .addproduct_title {
+    color:black;
+    font-family: sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    margin-top: 30px;
+  }
+  .addproduct-container {
+    height: 50px;
+    position: relative;
+    width: 100%;
+    margin-top: 30px;
+  }
+
+.filter{
+  display: inline;
+}
+.search{
+  display: inline;
+  margin-left: 220px;
+  padding-left: 20px;
+  height: 40px;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  margin-right: 20px;
+}
+.edit {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 17px;
+}
+.delete {
+  background: none!important;
+  border: none;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 17px;
+}
+.editproduct {
+   
+  margin: auto;
+  margin-top: 20px;
+  background-color: wheat;
+  border-radius: 20px;
+  box-sizing: border-box;
+  height: 650px;
+  padding: 20px;
+  width: 320px;
+  
+}
+
+.editproduct_title {
+  color:black;
+  font-family: sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  margin-top: 30px;
+}
+.editproduct-container {
+  height: 50px;
+  position: relative;
+  width: 100%;
+  margin-top: 30px;
+}
+p{
+  color: red !important;
+}
+.prodtable h2{
+    font-weight: bolder;
+    color: black;
+    margin-left: 400px;
+    font-size: 30px;
+}
+.page{
+  margin-left: 350px;
+  margin-top: 40px;
+  font-size: 20px;
+ 
+}
+.filter select{
+  margin-left: 20px;
+  width: 100px;
+  height: 40px;
+}
+.filter button{
+  width: 100px;
+  height: 40px;
+  background-color: green;
+  margin-left: 280px;
+}
+
+
+/* .addproduct button{
+  margin-top: 110px;
+} */

@@ -1,0 +1,191 @@
+.usertable{
+  margin-left: 460px;
+  /* padding-left: 300px; */
+}
+
+.user-table table {
+ 
+  border: 1px solid brown;
+  box-sizing: border-box;
+}
+  
+.user-table th {
+  font-size: 17px;
+  background:cornsilk;
+  border: 3px solid brown;
+  color: black;
+  padding: 2.5rem
+}
+  
+.user-table td {
+  padding: 1.5rem;
+  border: 1px solid brown;
+  color: black;
+  background:cornsilk;
+  font-size: 15px;
+}
+.filter{
+  display: inline;
+}
+    .addUser button{
+      margin-top: 15px;
+      margin-left: 10px;
+      padding: 10px;
+    }
+    .page{
+      margin-left: 50px;
+    }
+    .role{
+      padding-left: 830px;
+      padding-bottom: 20px;
+      font-weight:bold;
+      margin-top: 20px;
+      margin-left:210px;
+    } 
+
+    /* .signup  body{
+    background: rgb(2, 0, 36);
+    background: radial-gradient(
+      circle,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(30, 54, 59, 1) 0%,
+      rgba(93, 93, 116, 1) 100%
+    );
+  }  */
+  
+  .addUser {
+   
+    margin: auto;
+    margin-top: 20px;
+    background-color:firebrick;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 650px;
+    padding: 20px;
+    width: 320px;
+    
+  }
+  
+  .addUser_title {
+    color:black;
+    font-family: sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    margin-top: 30px;
+  }
+  
+  /* .subtitle {
+    color: #eee;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+  } */
+  
+  .addUser-container {
+    height: 50px;
+    position: relative;
+    width: 100%;
+    margin-top: 30px;
+  }
+  
+  /* .ac1 {
+    margin-top: 40px;
+  } */
+  .errormsg{
+    background-color:white;
+  }
+  
+  /* .ic2 {
+    margin-top: 30px;
+  } */
+  
+  .input {
+    background-color:white;
+    border-radius: 12px;
+    border: 1;
+    box-sizing: border-box;
+    color: black;
+    font-size: 18px;
+    height: 100%;
+    outline: 0;
+    padding: 4px 20px 0;
+    width: 100%;
+  }
+  .select {
+    background-color:white;
+    border-radius: 12px;
+    border: 1;
+    box-sizing: border-box;
+    color: black;
+    font-size: 18px;
+    height: 100%;
+    outline: 0;
+    padding: 4px 20px 0;
+    width: 100%;
+  }
+  
+  .placeholder {
+    color: #65657b;
+    font-family: sans-serif;
+    left: 20px;
+    line-height: 14px;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 0 50%;
+    transition: transform 200ms, color 200ms;
+    top: 20px;
+  }
+  
+  .submit {
+    background-color: #08d;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    cursor: pointer;
+    font-size: 18px;
+    height: 50px;
+    margin-top: 38px;
+    text-align: center;
+    width: 100%;
+    margin-left: 2px;
+  }
+  
+  
+  button {
+    background: #0563b4 ;
+  }
+  p {
+    color: red;
+    margin-top: 5px;
+  }
+  
+  .edituser {
+   
+    margin: auto;
+    margin-top: 20px;
+    background-color: wheat;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 650px;
+    padding: 20px;
+    width: 320px;
+    
+  }
+  
+  .edituser_title {
+    color:black;
+    font-family: sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    margin-top: 30px;
+  }
+  .edituser-container {
+    height: 50px;
+    position: relative;
+    width: 100%;
+    margin-top: 30px;
+  }
+  
+  
