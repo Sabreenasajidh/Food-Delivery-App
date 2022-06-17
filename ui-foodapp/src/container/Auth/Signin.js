@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { ToastContainer } from 'react-toastify';
+import Cookies from '../../helpers/cookie';
 
 import validate from './SigninValidation'
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +46,9 @@ export default function SignIn() {
 
     const onSubmit =async (value)=>{
        const userInfo=await dispatch.authModel.userLogin(value) 
+       console.log(userInfo);
+       //Cookies.setCookie('userIn,userInfo')
+
         if(userInfo.role === 'customer'){
             navigate('/customer')
         }

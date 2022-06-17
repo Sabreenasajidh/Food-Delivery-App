@@ -87,8 +87,9 @@ function ListProducts() {
 
     const editproduct = (val)=>{
     console.log({params:val.id});
-    nav('./edit/'+val.id,{state:val});
-     //nav(`./edit/${val.id}`)
+    // nav('/admin/products/edit')
+    // nav('./edit/'+val.id,{state:val});
+     nav(`./edit/${val.id}`)
     }
 
     const deleteProduct = async (val)=>{

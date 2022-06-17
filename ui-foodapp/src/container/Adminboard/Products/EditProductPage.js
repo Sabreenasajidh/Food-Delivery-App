@@ -5,6 +5,8 @@ import React,{useState,useEffect} from 'react';
 import Layout from '../../../Components/Layout/Layout'
 import {useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { useDropzone } from "react-dropzone";
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
  
  const DisplayingErrorMessagesSchema = Yup.object().shape({
    name: Yup.string().required('Required'),
@@ -22,43 +24,52 @@ import { useNavigate } from 'react-router';
  
  function EditProduct() {
     const[categoryName,setCategoryName]= useState([])
+    const [products,setProducts] = useState()
     const location = useLocation();
     const params = useParams();
     const dispatch = useDispatch()
     const nav = useNavigate();
-    console.log(location.state);
-    const image1 = location.state.image;
-    console.log(params.id);
 
     useEffect(()=>{
-        getCategoryName();        
+        getCategoryName();
+        getProducts(params.id)           
     },[])
 
     const getCategoryName = async()=>{
         const res = await dispatch.productModel.getCategoryName()
         setCategoryName(res.data)
     }
+    const getProducts = async(id)=>{
+            const prod = await dispatch.productModel.getProductbyId(id)
+            setProducts(prod.data)
+          }
     return(
+      
       <div>
           <Layout />
-          <div className = "addproduct">       
+            {!products?null :(
+              
+              <div className = "addproduct">
             <div className="editproduct_title">UPDATE PRODUCT</div>
             <Formik
               const initialValues = {{
-                name:location.state.name,
-                description:location.state.description,
-                status:location.state.status,
-                price:location.state.price,
-                category:location.state.category.name,
-                image:''
+                name:products.data.name,
+                //location.state.name,
+                description:products.data.description,
+                status:products.data.status,
+                price:products.data.price,
+                category:products.data.category.name,
+                image: null
               }}
               validationSchema={DisplayingErrorMessagesSchema}
               onSubmit={async (values) => {
                 const id = params.id
                 const op = {data:values,id:id}
-                console.log(values.image);
-                await dispatch.productModel.updateProduct(op)
-               // nav('/admin/products')
+                const res = await dispatch.productModel.updateProduct(op)
+                if(res.data){
+
+                  nav('/admin/products')
+                }
 
               }}
               >
@@ -97,18 +108,45 @@ import { useNavigate } from 'react-router';
                     <label name="price" className="placeholder"> Price</label>
                     <ErrorMessage component="p" name="price" />
                   </div>
-                  <div className="addproduct-container">
-                  <input name="image" className = "input" type="file" onChange={(event) => {setFieldValue("image", event.currentTarget.files[0])}} />
-                  <label name="file" className="placeholder"> file</label>
-                  <ErrorMessage component="p" name="image"/> 
+                  <div className="editproduct-container">
+                  <UploadComponent setFieldValue={setFieldValue} />
+                  {values.image?(<li>{`File:${values.image.name}`}</li>):null}
                   </div>
-                  <div><img src={`http://localhost:9000/${image1}`} width="150" height="100"/></div>
+                  <ErrorMessage component="p" name="image"/> 
+                  <div><img src={`http://localhost:9000/${products.data.image}`} width="150" height="100"/></div>
                   <button type="sumbit" className="submit">Submit</button>
               </Form>
               )}
             </Formik>
           </div>
+            )}       
         </div>
      )
  }
  export default EditProduct
+ const UploadComponent = props => {
+  const { setFieldValue } = props;
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: {
+      'image/jpeg': [],
+      'image/png': []
+    },
+    maxFiles:1,
+  onDrop: acceptedFiles => {
+    setFieldValue("image", acceptedFiles[0]);
+  }
+  });
+  return (
+  <div>
+    {}
+    <div {...getRootProps({ className: "dropzone" })}>
+      <input {...getInputProps()} />
+      {isDragActive ? (
+        <p>Drop the files here ...<AddAPhotoIcon/> </p>
+      ) : (
+        <div className ="imgupload" >Upload file <AddAPhotoIcon/></div>
+      )}
+    </div>
+  </div>
+  );
+}

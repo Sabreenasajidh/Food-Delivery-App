@@ -19,6 +19,7 @@ import AddProduct from '../container/Adminboard/Products/AddProductPage'
 import { BrowserRouter,Routes,Route} from 'react-router-dom';
 import EditProduct from '../container/Adminboard/Products/EditProductPage';
 import Order from '../container/Userboard/Order';
+import Test from '../container/Adminboard/Products/Test';
 function Rout() {
   //console.log(Cookies.get('userIn'));
   // const isLoggedIn = Cookies.get('userIn') ? JSON.parse(Cookies.get('userIn')): false
@@ -38,6 +39,7 @@ function Rout() {
               <Route path="/customer" element={<PrivateRoute component = {<Customer /> }/> } />
               <Route path="/customer/cart" element={<PrivateRoute component = {<Cart /> }/> } />
               <Route path="/customer/order" element={<PrivateRoute component = {<Order /> }/> } />
+              <Route path = "/admin/products/edit" element  = {<PrivateRoute component = {<Test /> }/> } />
             {/* </Route> */}
 
 

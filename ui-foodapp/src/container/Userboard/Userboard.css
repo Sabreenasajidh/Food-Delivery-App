@@ -265,11 +265,11 @@ p{
     text-decoration: none;
     list-style: none;
   }
-  .dropdown {
+  /* .dropdown {
     float: left;
     overflow: hidden;
     margin-left: 95rem;
-  }
+  } */
   .navbar li:hover, .dropdown:hover .dropbtn {
     background-color: red;
   }

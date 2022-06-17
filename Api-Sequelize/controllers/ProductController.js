@@ -119,9 +119,7 @@ const getCategoryName = async(req,res)=>{
 
  const updateProducts = async(req,res)=>{
      try{
-        //  const getCategory = await Category.findOne({where:{name:req.body.category}})
-        //  console.log(req.params.id);
-
+        console.log('here');
         await Product.update(
             {
                 name:req.body.name,

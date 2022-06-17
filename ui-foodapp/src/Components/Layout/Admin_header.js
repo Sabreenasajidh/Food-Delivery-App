@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router';
     Cookies.removeCookie('userIn',{path:'/'}) 
       nav('/login')
     }
-    const user = JSON.parse(Cookies.getCookie('userIn'))
+    const user = Cookies.getCookie('userIn')
   return (
       <div className="navbar">
         <li >Home</li>

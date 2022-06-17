@@ -33,7 +33,7 @@
     background-color: cadetblue;
     border-radius: 20px;
     box-sizing: border-box;
-    height: 820px;
+    height: auto;
     padding: 20px;
     width: 320px;
     
@@ -145,3 +145,17 @@ p{
 /* .addproduct button{
   margin-top: 110px;
 } */
+.imgupload input{
+  display: none;
+  
+
+}
+
+.imgupload{
+  text-align:center;
+  padding:5%;
+  background-color: white;
+  border-radius: 12px;
+  margin-bottom: 5px;
+  cursor:pointer;
+}

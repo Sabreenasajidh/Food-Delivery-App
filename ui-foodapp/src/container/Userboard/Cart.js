@@ -21,7 +21,7 @@ function Cart() {
     const [value,setValue] = useState(0)
     const dispatch= useDispatch()
     const nav = useNavigate()
-    const user = JSON.parse(Cookie.getCookie('userIn'))
+    const user = Cookie.getCookie('userIn')
     console.log(user);
 
     useEffect(()=>{

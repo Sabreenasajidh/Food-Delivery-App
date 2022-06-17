@@ -8,6 +8,8 @@ import {useDispatch} from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import {useNavigate } from 'react-router';
+import { useDropzone } from "react-dropzone";
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 const DisplayingErrorMessagesSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
@@ -83,11 +85,11 @@ function AddProducts() {
           </div>
 
           <div className="addproduct-container">
-
-          <input id="file" className = "input" name="image" type="file" onChange={(event) => {setFieldValue("image", event.currentTarget.files[0])}} />
-          <label name="file" className="placeholder"> file</label>
-          <ErrorMessage component="p" name="image"/> 
-          </div>
+                  <UploadComponent setFieldValue={setFieldValue} />
+                    {values.image?(<li>{`File:${values.image.name}`}</li>):null}
+                      
+            </div>
+            <ErrorMessage component="p" name="image" />
 
           <div className="addproduct-container">
               <Field name="description" className = "input"/>
@@ -122,3 +124,31 @@ function AddProducts() {
 }
 
 export default AddProducts
+
+
+const UploadComponent = props => {
+  const { setFieldValue } = props;
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: {
+      'image/jpeg': [],
+      'image/png': []
+    },
+    maxFiles:1,
+  onDrop: acceptedFiles => {
+    setFieldValue("image", acceptedFiles[0]);
+  }
+  });
+  return (
+  <div>
+    {}
+    <div {...getRootProps({ className: "dropzone" })}>
+      <input {...getInputProps()} />
+      {isDragActive ? (
+        <p>Drop the files here ...<AddAPhotoIcon/> </p>
+      ) : (
+        <div className ="imgupload" >Upload file <AddAPhotoIcon/></div>
+      )}
+    </div>
+  </div>
+  );
+}

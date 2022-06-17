@@ -10,6 +10,8 @@ function UserHeader() {
     const nav =useNavigate()
     const [state,setState] = useState(false)
 
+    const user = Cookies.getCookie('userIn')
+    console.log(user);
     const showList= ()=>{
       setState(true)
     }
@@ -32,8 +34,6 @@ function UserHeader() {
      const homePage = ()=>{
       nav('/customer')
      }
-     const user = JSON.parse(Cookies.getCookie('userIn'))
-     console.log(user);
    return (
 
     <div className="navbar">

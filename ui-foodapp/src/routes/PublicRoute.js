@@ -4,10 +4,10 @@ import Cookies from '../helpers/cookie'
 function PublicRoute({component}) {
 
     const auth = Cookies.getCookie('userIn')
-    if (auth && JSON.parse(auth).role === 'admin') {
+    if (auth && auth.role === 'admin') {
        return  <Navigate to = "/admin"/>
     }
-    if (auth && JSON.parse(auth).role === 'customer') {
+    if (auth && auth.role === 'customer') {
         return  <Navigate to = "/customer"/>
      }
     if (!auth) {

@@ -73,18 +73,25 @@ const signUp = async (req,res)=>{
 const login = async(req,res)=>{
     try{
         const {body} = req
+        console.log(body);
         const reqData = ["email","password"]
         reqData.forEach(field=>{
             if(!body[field] || body[field] === null) throw new Error(field +' Missing');
         })
         const user =await User.findOne({where:{email:req.body.email}})
         
-        if(user != null){
+        if(!user){
+            throw new Error('Incorrect Email or Password')
+        }
+        else{
+
             const compPassword = bcrypt.compareSync(req.body.password,user.password)
+            console.log(compPassword);
             if(compPassword){
 
                 const roledet = await Role.findOne({where:{id:user.role_id}})
                 const token = generateAccessToken(user.email,user.id);
+                console.log("wdde");
                 return res.status(200).json({
                     token:token,
                     email:user.email,
@@ -94,9 +101,10 @@ const login = async(req,res)=>{
                     
                 })
             }
+            else throw new Error('Incorrect Email or Password')
         }
-        else throw new Error('Incorrect Email or Password')
-        // }
+    
+       
             
     }catch(e){
         console.log(e);

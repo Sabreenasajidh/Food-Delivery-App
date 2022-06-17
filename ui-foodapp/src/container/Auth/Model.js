@@ -18,15 +18,18 @@ const  login = {
 
             try {
                   let response =  await service.loginService(value)
+                  console.log(response);
                   if(response.data){
-                    this.USERDATA(response.data);
-                    return response.data
+                      this.USERDATA(response.data);
+                      return response.data
                   }
                   else{
                       toaster.errorToast(response.response.data.error)
+                    return response
                   }
             }
             catch (e) {
+                console.log(e);
                 toaster.errorToast(e)
 
             }
