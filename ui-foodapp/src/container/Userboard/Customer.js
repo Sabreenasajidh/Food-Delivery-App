@@ -6,7 +6,7 @@ import './Userboard.css'
 
 function Customer() {
   return (
-    <div>
+    <div className = "pr-container">
       <Header />
       <Sidebar />
     </div>

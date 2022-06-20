@@ -119,19 +119,33 @@ const getCategoryName = async(req,res)=>{
 
  const updateProducts = async(req,res)=>{
      try{
-        console.log('here');
-        await Product.update(
-            {
+         let data = {}
+        if(req.file){
+            data = {
+                image :req.file.path,
                 name:req.body.name,
                 description	:req.body.description,
                 status:req.body.status,
                 price:req.body.price,
-                image :req.file.path
-            },
-            {
-              where: { id: req.params.id },
+
             }
+        }
+        else{
+            data = {
+                name:req.body.name,
+                description	:req.body.description,
+                status:req.body.status,
+                price:req.body.price,
+
+            }
+        }
+        console.log(data);
+        const op = await Product.update(
+            data,
+            { where: { id: req.params.id } }
           );
+          console.log(op);
+          console.log(req.params.id);
           return res.status(200).json({data:"Success"})
 
      }catch(e){

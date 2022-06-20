@@ -14,7 +14,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
    status:Yup.string().required('Required'),
    price:Yup.number().required('Required'),
    category:Yup.string().required('Required'),
-   image:Yup.mixed().required('Required'),
+  //  image:Yup.mixed().required('Required'),
  });
  const status_options = [
   {name:'active'},
@@ -59,10 +59,12 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
                 status:products.data.status,
                 price:products.data.price,
                 category:products.data.category.name,
-                image: null
+                 image: null
               }}
               validationSchema={DisplayingErrorMessagesSchema}
               onSubmit={async (values) => {
+                console.log(values);
+
                 const id = params.id
                 const op = {data:values,id:id}
                 const res = await dispatch.productModel.updateProduct(op)
@@ -113,7 +115,8 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
                   {values.image?(<li>{`File:${values.image.name}`}</li>):null}
                   </div>
                   <ErrorMessage component="p" name="image"/> 
-                  <div><img src={`http://localhost:9000/${products.data.image}`} width="150" height="100"/></div>
+                  {values.image? null :<div><img src={`http://localhost:9000/${products.data.image}`} width="150" height="100"/></div>}
+                  
                   <button type="sumbit" className="submit">Submit</button>
               </Form>
               )}
@@ -124,6 +127,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
      )
  }
  export default EditProduct
+ 
  const UploadComponent = props => {
   const { setFieldValue } = props;
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

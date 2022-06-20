@@ -17,6 +17,7 @@ const  users = {
 
             try {
                  let response =  await service.getProducts(data);
+                 console.log(response);
                  if(response.data){
                     this.PRODUCTS(response.data);
                     return response.data
@@ -40,9 +41,9 @@ const  users = {
             try {
                 console.log(value);
                 const response = await service.addproducts(value);
-                return response
-                 if(response.data){
-                     toaster.successToast(response.data.message)        
+                if(response.data){
+                    toaster.successToast(response.data.message)        
+                    return response
                    }
                   else{
                     toaster.errorToast(response.data.message)

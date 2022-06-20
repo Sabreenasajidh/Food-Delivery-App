@@ -16,7 +16,7 @@ function ProductList(props) {
     const [productlist,setProductlist]=useState([])
     const [value,setValue] = useState(0)
     const list = props.data
-    console.log(props.data.data);
+    console.log(list);
     
     const dispatch = useDispatch()
     
@@ -58,7 +58,10 @@ function ProductList(props) {
                     <li className="row" key={index}>
                         <div className="col left">
                         <div className="thumbnail">
+                            {! <img src={`http://localhost:9000/${item.image}`} alt={item.name} />?<img src={logo} />:
                             <img src={`http://localhost:9000/${item.image}`} alt={item.name} />
+                            
+                        }
                         </div>
                         <div className="detail">
                             <div className="name">

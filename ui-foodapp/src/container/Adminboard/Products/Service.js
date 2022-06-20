@@ -1,7 +1,7 @@
 import {api,newApi} from '../../../helpers/axios'
 
- const getProducts =  (data)=>{
-    const result  =  api().get(`/api/products/`,{params:data}).then(value =>{
+ const getProducts =  async (data)=>{
+    const result  =  await api().get(`/api/products/`,{params:data}).then(value =>{
       return value         
       }).catch((err)=>{      
         return err
@@ -29,8 +29,8 @@ const addproducts =  (data)=>{
 
 }
 
-const getCategoryName = ()=>{
-  const result  = api().get('/api/products/getCategoryName').then(value =>{
+ const getCategoryName = async()=>{
+  const result  = await api().get('/api/products/getCategoryName').then(value =>{
     return value         
     }).catch((err)=>{      
       console.log(err);
