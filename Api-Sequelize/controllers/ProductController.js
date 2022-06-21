@@ -8,7 +8,6 @@ const Op = Sequelize.Op;
 const AddProduct = async(req,res)=>{
     try{
         const {body} = req
-        console.log(body);
         const reqData = ['name','description','price']
         reqData.forEach(element => {
             if(!body[element] ||body[element] === null) 
@@ -16,16 +15,14 @@ const AddProduct = async(req,res)=>{
         }); 
 
         body.category_id = parseInt(req.body.category_id)
-        console.log(req.file.path);
         body.image = req.file.path;
-
-       const product = await Product.create(body)
-        console.log(product);
-        res.send({message:"Product added Successfully"})
+        
+       await Product.create(body)
+       return res.status(200).json({message:"Product added Successfully"})
 
     }catch(e){
         console.log(e);
-        res.send({message:"Product Not Added to DB"})
+        res.status(500).send({message:"Product Not Added to DB"})
 
     }
 }
@@ -33,6 +30,7 @@ const ListProduct = async(req,res)=>{
     try{
         const limit = parseInt(req.query.limit)
         const offset = parseInt(req.query.offset)
+        console.log(limit,offset);
         const category_id = req.query.category_id
         const pro_status = req.query.status
         console.log(pro_status);
@@ -73,7 +71,7 @@ const ListProduct = async(req,res)=>{
             include:[{ model: Category,attributes:["name"]}],
             where:where_con
           });
-          console.log("rows",rows);
+          console.log("rows",category_name.name);
     return res.status(200).json({data:rows,count:count,category_name:category_name.name})
 
     }catch(e){

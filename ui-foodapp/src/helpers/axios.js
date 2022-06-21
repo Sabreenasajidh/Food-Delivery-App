@@ -9,6 +9,7 @@ function Header() {
     if (Cookie.getCookie('userIn')) {
         header["x-access-token"] = JSON.parse(Cookie.getCookie('userIn')).token
     }
+    console.log(header);
     return header
 }
 function newHeader() {
