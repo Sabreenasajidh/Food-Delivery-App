@@ -1,0 +1,66 @@
+{
+    "createProduct": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": "number",
+                "example":78
+                
+            },
+            "name": {
+                "type": "string",
+                "example":"KFC"    
+            },
+            "description": {
+                "type": "string",
+                "example":"yummy kfc"               
+            },
+            "status": {
+                "type": "string",
+                "example":"active"
+               
+            },
+            "price": {
+                "type": "number",
+                "example":600
+               
+            },
+            "image":{
+                "type": "file",
+                "url":{"type": "string"},
+                "example":"/home/sabreena/Downloads/donuts.jpeg"
+                },
+            "category_id": {
+                "type": "number",
+                "example":2
+               
+            }
+        }
+    },
+
+    "getProduct": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": "number"                
+            },
+            "name": {
+                "type": "string"   
+            },
+            "description": {
+                "type": "string"              
+            },
+            "status": {
+                "type": "string"               
+            },
+            "price": {
+                "type": "number"               
+            },
+            "image":{
+                "type": "string"
+            }
+        }
+    }
+    
+}
+

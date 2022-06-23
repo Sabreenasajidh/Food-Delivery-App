@@ -7,6 +7,7 @@ const Op = Sequelize.Op;
 
 const AddProduct = async(req,res)=>{
     try{
+        console.log(req.body);
         const {body} = req
         const reqData = ['name','description','price']
         reqData.forEach(element => {
@@ -30,20 +31,15 @@ const ListProduct = async(req,res)=>{
     try{
         const limit = parseInt(req.query.limit)
         const offset = parseInt(req.query.offset)
-        console.log(limit,offset);
         const category_id = req.query.category_id
         const pro_status = req.query.status
-        console.log(pro_status);
         const searchdata = req.query.searchdata
-        console.log(searchdata);
         let where_con = {}
         let category_name = ''
         if (category_id && category_id !='0'){
-            console.log(category_id,"**************");
             where_con.category_id = category_id
             category_name = await Category.findOne({where:{id:category_id}})
        }
-       //console.log(category_name);
        if(pro_status){
          let  status = pro_status.toLowerCase()
            if(status == 'active' || status == 'inactive'){
@@ -63,7 +59,6 @@ const ListProduct = async(req,res)=>{
                 }
             }
         }
-        console.log(where_con);
         const { count, rows } = await Product.findAndCountAll({
             offset:offset,
             limit:limit,
@@ -71,7 +66,6 @@ const ListProduct = async(req,res)=>{
             include:[{ model: Category,attributes:["name"]}],
             where:where_con
           });
-          console.log("rows",category_name.name);
     return res.status(200).json({data:rows,count:count,category_name:category_name.name})
 
     }catch(e){

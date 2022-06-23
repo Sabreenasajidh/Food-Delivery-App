@@ -1,7 +1,7 @@
 import {api,newApi} from '../../../helpers/axios'
 
  const getProducts =  async (data)=>{
-    const result  =  await api().get(`/api/products/`,{params:data}).then(value =>{
+    const result  =  await api().get(`/api/products/?${data}`).then(value =>{
       return value         
       }).catch((err)=>{      
         return err

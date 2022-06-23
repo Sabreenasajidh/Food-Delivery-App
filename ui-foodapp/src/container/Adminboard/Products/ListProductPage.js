@@ -30,7 +30,9 @@ function ListProducts() {
     },[])
 
     async function listProducts(params) {
-        const product = await dispatch.productModel.getProducts(params);
+        let newparams = new URLSearchParams(params).toString();
+        console.log(newparams);
+        const product = await dispatch.productModel.getProducts(newparams);
         console.log(product);
         setData(product.data)
         const total = product.count;

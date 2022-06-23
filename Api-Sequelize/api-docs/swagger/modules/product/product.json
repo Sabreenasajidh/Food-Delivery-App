@@ -1,0 +1,169 @@
+{
+    "/api/products/create": {
+        "post": {
+            "tags": [
+                "Product"
+            ],
+            "description": "Create paroduct",
+            "operationId": "createproduct",
+            "produces": [
+                "application/json"
+            ],
+            "parameters": [],
+            "requestBody": {
+                "description": "create product body payload",
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "$ref": "#/definitions/createProduct"
+                            
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        },
+                        "example": {
+                            "message": "Product added successfully"
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Invalid request",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "error": {
+                                "type": "string"
+                            }
+                        },
+                        "example": {
+                            "error": "failed to add a Product."
+                        }
+                    }
+                },
+                "403": {
+                    "description": "Unauthorized access",
+                    "schema": {
+                        "type": "object",
+                        "example": {
+                            "error": "Unauthorized access"
+                        }
+                    }
+                }
+            },
+            "security": [
+                {
+                    "cookieAuth": []
+                }
+            ]
+        }
+    },
+    "/api/products/": {
+        "get": {
+          "tags": [
+            "Product"
+          ],
+          "summary": "Get products list",
+          "description": "Get prodcuts list for admin",
+          "operationId": "listproducts",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "offset",
+              "required": false,
+              "type": "number",
+              "description": "pagination start",
+              "example":0
+            },
+            {
+              "in": "query",
+              "name": "limit",
+              "required": false,
+              "type": "number",
+              "description": "pagination limit",
+              "example":2
+            },
+            {
+              "in": "query",
+              "name": "search",
+              "required": false,
+              "type": "string",
+              "description": "search prodcuts",
+              "example": "biriyani"
+            },
+            {
+              "in": "query",
+              "name": "category_id",
+              "required": false,
+              "type": "number",
+              "example":1
+            },
+            {
+              "in": "query",
+              "name": "status",
+              "required": false,
+              "type": "string",
+              "example": "active"
+            }
+          ],
+          "responses": {
+            "200": {
+                "description": "successful operation",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "message": {
+                            "type": "string"
+                        }
+                    },
+                    "example": {
+                        "message": "items from products"
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid request",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "error": {
+                            "type": "string"
+                        }
+                    },
+                    "example": {
+                        "error": "failed to display cart."
+                    }
+                }
+            },
+            "403": {
+                "description": "Unauthorized access",
+                "schema": {
+                    "type": "object",
+                    "example": {
+                        "error": "Unauthorized access"
+                    }
+                }
+            }
+        },
+        "security": [
+            {
+              "cookieAuth":[]
+            }
+        ]
+
+        }
+    }
+}
+
