@@ -33,7 +33,7 @@ function ListProducts() {
         let newparams = new URLSearchParams(params).toString();
         console.log(newparams);
         const product = await dispatch.productModel.getProducts(newparams);
-        console.log(product);
+        console.log(product.data,"++++++++++++++++");
         setData(product.data)
         const total = product.count;
         setpageCount(Math.ceil(total / limit));

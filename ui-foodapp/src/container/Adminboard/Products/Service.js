@@ -1,9 +1,14 @@
 import {api,newApi} from '../../../helpers/axios'
+import axios from 'axios';
 
  const getProducts =  async (data)=>{
-    const result  =  await api().get(`/api/products/?${data}`).then(value =>{
-      return value         
-      }).catch((err)=>{      
+
+   // const result  =  await api().get(`/api/products/?${data}`).then(value =>{
+    const result  =  await axios.get(`http://localhost:8000/api/product/getproduct?${data}`).then(value =>{
+      //console.log(value.data,"_____________");
+      return value        
+      }).catch((err)=>{   
+        console.log(err);   
         return err
     })
     return result

@@ -29,6 +29,7 @@ const AddProduct = async(req,res)=>{
 }
 const ListProduct = async(req,res)=>{
     try{
+        console.log(req.query.limit);
         const limit = parseInt(req.query.limit)
         const offset = parseInt(req.query.offset)
         const category_id = req.query.category_id

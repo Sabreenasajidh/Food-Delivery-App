@@ -25,7 +25,9 @@ function UserSidebar() {
 
     
     const productList = async()=>{
-      const product = await dispatch.productModel.getProducts(params);
+      let newparams = new URLSearchParams(params).toString();
+      const product = await dispatch.productModel.getProducts(newparams);
+      console.log(product);
       setProductlist(product)
       const total = product.count;
       setpageCount(Math.ceil(total / limit));

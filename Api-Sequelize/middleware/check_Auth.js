@@ -10,12 +10,8 @@ const checkAuth= (req,res,next)=>{
         req.user = decodedToken
         next();
 
-    }catch(e){
-        console.log(e);
-        return res.status(401).json({
-            'message':'Invalid or expired token!!',
-            'error':e
-        })
-    }
+    } catch (err) {
+        res.status(401).send('Please authenticate');
+      }
 }
 export default checkAuth
