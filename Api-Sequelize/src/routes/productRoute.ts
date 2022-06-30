@@ -1,26 +1,29 @@
 import express, { Express, Request, Response } from 'express';
 var router  = express.Router();
 
-import {ListProduct} from '../controllers/productController'
+import {ListProduct,AddProduct,updateProduct,deleteProduct} from '../controllers/productController'
 import {checkAuth} from '../middleware/check_Auth';
-// import multer from 'multer'
-// import path from 'path'
+import multer from 'multer'
+import path from 'path'
 
-// let storage = multer.diskStorage({
-//     destination: 'public/uploads',
-//     filename: (req, file, cb) => {
-// 		//console.log(req);
-// 	   const ext  = path.parse(file.originalname).ext;
-// 	   const name = path.parse(file.originalname).name;
-// 	   cb(null, `${name}-${Date.now()}${ext}`);
-// 	},
-// });
-// let upload = multer({
-//     storage: storage
-// })
+let storage = multer.diskStorage({
+    destination: 'public/uploads',
+    filename: (req, file, cb) => {
+		//console.log(req);
+	   const ext  = path.parse(file.originalname).ext;
+	   const name = path.parse(file.originalname).name;
+	   cb(null, `${name}-${Date.now()}${ext}`);
+	},
+});
+let upload = multer({
+    storage: storage
+})
 
 
-router.get('/getproduct',checkAuth,ListProduct);
+router.get('/getproduct',ListProduct);
+router.post('/create',upload.single('image'),AddProduct);
+router.put('/edit/:id',updateProduct);
+router.delete('/delete/:id',deleteProduct);
 //router.get('/create',checkAuth,AddProduct);
  
 

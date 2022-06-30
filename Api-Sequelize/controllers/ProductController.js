@@ -112,6 +112,7 @@ const getCategoryName = async(req,res)=>{
 
  const updateProducts = async(req,res)=>{
      try{
+         console.log(req);
          let data = {}
         if(req.file){
             data = {
@@ -138,7 +139,6 @@ const getCategoryName = async(req,res)=>{
             { where: { id: req.params.id } }
           );
           console.log(op);
-          console.log(req.params.id);
           return res.status(200).json({data:"Success"})
 
      }catch(e){

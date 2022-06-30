@@ -8,22 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const chai_1 = __importDefault(require("chai"));
-var expect = chai_1.default.expect;
-const chai_json_schema_1 = __importDefault(require("chai-json-schema"));
-chai_1.default.use(chai_json_schema_1.default);
+const chai = require('chai');
+var expect = chai.expect;
+const jsonSchema = require('chai-json-schema');
+chai.use(jsonSchema);
 let url = 'http://localhost:9000';
 let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhYnJlZW5hLnRibHJAZ21haWwuY29tIiwiaWQiOjIsImlhdCI6MTY1NTc4NjUzOH0.mmu5ZkWbf0XRXOns0TWXARJsO0lNLsrGE4e5o_ExjbU';
-const supertest_1 = __importDefault(require("supertest"));
+const request = require("supertest");
 describe('Product Api', () => {
     describe("POST /product/create", function () {
         it("should create a new product", function () {
             return __awaiter(this, void 0, void 0, function* () {
-                yield (0, supertest_1.default)(url)
+                yield request(url)
                     .post('/api/products/create')
                     .attach('image', '/home/sabreena/Downloads/donuts.jpeg', 'image.jpg')
                     .field('name', 'biriyani')
@@ -53,7 +49,7 @@ describe('Product Api', () => {
             };
             let data = { offset: 0, limit: 3 };
             expect(data).to.be.jsonSchema(dataSchema);
-            let res = yield (0, supertest_1.default)(url)
+            let res = yield request(url)
                 .get('/api/products/')
                 .query(data)
                 .set('content-Type', 'application/json')

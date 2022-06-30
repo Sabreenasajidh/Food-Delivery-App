@@ -92,6 +92,7 @@ const login = async(req,res)=>{
                 const roledet = await Role.findOne({where:{id:user.role_id}})
                 const token = generateAccessToken(user.email,user.id);
                 console.log("wdde");
+                
                 return res.status(200).json({
                     token:token,
                     email:user.email,
@@ -247,7 +248,7 @@ const getRole = async(req,res)=>{
 }
 const updateUser = async(req,res)=>{
     try{
-        console.log(req.params.id);
+        console.log(req.body.role);
         const {body} = req
         const role = await Role.findOne({where:{role_name:body.role}})
         const role_id = role.id
@@ -287,7 +288,7 @@ const deleteUser = async(req,res)=>{
         return res.status(400).json({data:"Not Success"})
     }
 }
-const addtoCart  =async(req,res)=>{
+const addorUpdateCart  =async(req,res)=>{
     try{
         const {body} = req
         const reqData = ['product_id','product_name','count']
@@ -307,24 +308,25 @@ const addtoCart  =async(req,res)=>{
             return res.status(200).json({data:"Success"})
         }
     }catch(e){
+        console.log(e);
         return res.status(400).json(e)
     }
 
 }
-const updateCart = async(req,res)=>{
-    try{
-        const {body} = req
-       const data = await User.update(
-           {count:req.body.count},
-           {where: { user_id: req.body.user_id,product_id:req.body.product_id }}
-        );
-         return res.status(200).json({data:"success"})
+// const updateCart = async(req,res)=>{
+//     try{
+//         const {body} = req
+//        const data = await User.update(
+//            {count:req.body.count},
+//            {where: { user_id: req.body.user_id,product_id:req.body.product_id }}
+//         );
+//          return res.status(200).json({data:"success"})
 
-    }catch(e){
-       return res.status(400).json({data:"Error"+e})
+//     }catch(e){
+//        return res.status(400).json({data:"Error"+e})
 
-    }
-}
+//     }
+// }
 const listcartItems = async(req,res)=>{
     try{
 
@@ -345,13 +347,13 @@ const addOrder = async(req,res)=>{
     try{
         const {body} = req
         console.log(body);
+        const dd = await Order.bulkCreate(body)
+        console.log(dd);
         await Cart.destroy({
             where: {
               user_id: req.user.id
             }
           });
-       const dd = await Order.bulkCreate(body)
-       console.log(dd);
         
         return res.status(200).json({data:"Success"})
     }catch(e){
@@ -366,22 +368,23 @@ const listOrder = async(req,res)=>{
         
         const data = await Order.findAll({where:{user_id:req.user.id}, include:[{ model: Product}]})
     //    const data =  await Order.findAll({where:{user_id:req.user.id},include:[{ model: Product}]})
-    //    console.log(data);
+        console.log(data);
         return res.status(200).json({data:data})
     }catch(e){
         return res.status(400).json(e)
     }
 }
-const deleteOrder = async(req,res)=>{
+const deleteCart = async(req,res)=>{
     try{
 
-        console.log(req.body);
-        const {body} = req
-        await Cart.destroy({where: body });
+        console.log(req.query);
+        const {query} = req
+        await Cart.destroy({where: query });
         return res.status(200).json({data:'success'})
     }catch(e){
+        console.log(e);
         return res.status(400).json(e)
     }
 
 }
-export default {signUp,login,listUsers,addUser,getRole,updateUser,deleteUser,addtoCart,updateCart,listcartItems,addOrder,listOrder,deleteOrder}
+export default {signUp,login,listUsers,addUser,getRole,updateUser,deleteUser,addorUpdateCart,listcartItems,addOrder,listOrder,deleteCart}

@@ -21,10 +21,10 @@ let storage = multer_1.default.diskStorage({
 let upload = (0, multer_1.default)({
     storage: storage
 });
-router.get('/', check_Auth_js_1.default, ProductController_js_1.default.ListProduct);
-router.post('/create', check_Auth_js_1.default, upload.single('image'), ProductController_js_1.default.AddProduct);
-router.get('/getCategoryName', check_Auth_js_1.default, ProductController_js_1.default.getCategoryName);
-router.put('/update/:id', check_Auth_js_1.default, upload.single('image'), ProductController_js_1.default.updateProducts);
-router.delete('/delete/:id', check_Auth_js_1.default, ProductController_js_1.default.deleteProduct);
-router.get('/:id', check_Auth_js_1.default, ProductController_js_1.default.getProductbyId);
+router.get('/', check_Auth_js_1.default, ProductController_js_1.default.ListProduct); //list all product
+router.post('/create', check_Auth_js_1.default, upload.single('image'), ProductController_js_1.default.AddProduct); //create new product
+router.get('/getCategoryName', check_Auth_js_1.default, ProductController_js_1.default.getCategoryName); //get categorynames
+router.put('/update/:id', check_Auth_js_1.default, upload.single('image'), ProductController_js_1.default.updateProducts); //update product
+router.delete('/delete/:id', check_Auth_js_1.default, ProductController_js_1.default.deleteProduct); // delete product
+router.get('/:id', check_Auth_js_1.default, ProductController_js_1.default.getProductbyId); //get single product details
 exports.default = router;

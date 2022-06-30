@@ -66,6 +66,12 @@ const  cart = {
         async listOrder(){
             let resp = await service.listOrder()
             return resp;
+        },
+        async deleteOrder (data){
+            console.log(data);
+            let resp = await service.deleteOrder(data)
+            return resp;
+
         }
         }
 }

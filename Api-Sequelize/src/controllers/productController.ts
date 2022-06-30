@@ -62,4 +62,96 @@ export const ListProduct = async(req:Request,res:Response)=>{
         return res.status(400).json({data:"Error"+e})
     }
 }
-//export default {listProduct}
+interface MulterRequest extends Request {
+    file?: any;
+    body:any;
+}
+
+
+export const AddProduct = async(req:MulterRequest,res:Response)=>{
+    try{
+        // console.log(req.body);
+        // console.log(req.file.path);
+        
+        const {body} = req
+        const reqData = ['name','description','price']
+        reqData.forEach(element => {
+            if(!body[element] ||body[element] === null) 
+            throw {message:'Field Missing '+ element };
+        }); 
+
+        //body.category_id = parseInt(req.body.category_id)
+        body.category_id = parseInt(req.body.category_id as string)
+        body.image= req.file.path;
+        console.log(body);
+        
+       await Product.create(body)
+       return res.status(200).json({message:"Product added Successfully"})
+
+    }catch(e){
+        console.log(e);
+        res.status(500).send({message:"Product Not Added to DB"})
+
+    }
+}
+export const updateProduct = async(req:Request,res:Response)=>{
+    try{
+        console.log(req.params.id);
+        
+        let data = {}
+       if(req.file){
+           data = {
+               image :req.file.path,
+               name:req.body.name,
+               description	:req.body.description,
+               status:req.body.status,
+               price:req.body.price,
+
+           }
+       }
+       else{
+           data = {
+               name:req.body.name,
+               description	:req.body.description,
+               status:req.body.status,
+               price:req.body.price,
+
+           }
+       }
+       console.log(data);
+       const op = await Product.update(
+           data,
+           { where: { id: req.params.id } }
+         );
+         console.log(op);
+         //console.log(req.params.id);
+         return res.status(200).json({data:"Success"})
+
+    }catch(e){
+       console.log(e);
+       return res.status(400).json({data:"Error"+e})
+
+    }
+    
+
+}
+export const deleteProduct = (req:Request,res:Response)=>{
+    try{
+       //console.log("Delete prodcut with id "+req.params.id);
+        Product.update(
+            {
+                status:'trash'
+            },
+            {
+            where: { id: req.params.id },
+          });
+       res.status(200).send("Deleted")
+        
+
+    }catch(e){
+        res.status(400).send("Error........")
+        
+
+    }
+
+}

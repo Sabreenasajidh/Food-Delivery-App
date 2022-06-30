@@ -15,16 +15,18 @@ import { ToastContainer } from 'react-toastify';
 import './cart.css'
 
 function Cart() {
+  
     const [CartList,setCartList] = useState([])
     //const[params,setParam] =useState([])
     const [isOpen, setIsOpen] = useState(false);
     const [value,setValue] = useState(0)
     const dispatch= useDispatch()
     const nav = useNavigate()
-    const user = Cookie.getCookie('userIn')
-    console.log(user);
+    const user =  Cookie.getCookie('userIn')
 
     useEffect(()=>{
+      
+      //setUser(userdata)
         cartlist()
     },[])
     console.log(CartList);
@@ -41,17 +43,22 @@ function Cart() {
     }
 
     const proceedButton = async(e)=>{
+      // const dd = JSON.parse(user)
+      // console.log(dd.id);
         const randomPassword =Math.random().toString(36).slice(-8);
+        console.log(randomPassword);
          const res = CartList.map((item, index) =>{
             return {
                 product_id:item.product.id,
                 item_count:item.count,
                 amount:item.product.price*item.count,
-                user_id:user.id,
+                user_id:JSON.parse(user).id,
                 reference_id : randomPassword
                 
             }
+
         })
+        console.log(res);
         await dispatch.cartModel.addorder(res)
         nav('/customer/order')
             
@@ -87,7 +94,7 @@ function Cart() {
     const updateCart = async(item,index)=>{
       console.log(item);
       const count = item.count?item.count:1
-       const params = {product_id:item.id,count:count,user_id:item.user_id}
+       const params = {product_id:item.id,count:count,user_id:item.user_id,product_name:item.product_name}
      const res = await dispatch.cartModel.updateCart(params);
      console.log(res);
      }
