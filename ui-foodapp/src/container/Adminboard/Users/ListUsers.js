@@ -60,12 +60,12 @@ const onChangedata = async(e)=>{
  await listUsers(params)
 }
 const handlePageClick = async(data)=>{
- let offset =   data.selected * limit
- setOffset(offset)
- params.offset = offset
- params.limit = limit
- setParams(params)
- await listUsers(params)
+    let offset = (data.target.textContent -1) * limit
+    setOffset(offset)
+    params.offset = offset
+    params.limit = limit
+    setParams(params)
+    await listUsers(params)
 
 }
 const onChangestatus = (e)=>{

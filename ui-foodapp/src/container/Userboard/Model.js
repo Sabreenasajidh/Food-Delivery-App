@@ -13,10 +13,11 @@ const  cart = {
         },
     },
     effects: {
-        async addtoCart(item) {
+        async addtoCart(data) {
 
             try {
-                let response =  await service.addtoCart(item);
+                console.log(data);
+                let response =  await service.addtoCart(data);
                     console.log(response);
                  if(response.data){
                      toaster.successToast(response.data.data)

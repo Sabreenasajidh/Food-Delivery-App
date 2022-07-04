@@ -60,6 +60,40 @@
                 "type": "string"
             }
         }
+    },
+    "updateProduct": {
+        "type": "object",
+        "properties": {
+           
+            "name": {
+                "type": "string",
+                "example":"sw.test"    
+            },
+            "description": {
+                "type": "string",
+                "example":"sw kfc"               
+            },
+            "status": {
+                "type": "string",
+                "example":"active"
+               
+            },
+            "price": {
+                "type": "number",
+                "example":400
+               
+            },
+            "image":{
+                "type": "file",
+                "url":{"type": "string"},
+                "example":"/home/sabreena/Downloads/donuts.jpeg"
+                },
+            "category_id": {
+                "type": "number",
+                "example":2
+               
+            }
+        }
     }
     
 }

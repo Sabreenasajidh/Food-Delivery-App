@@ -6,12 +6,12 @@
     font-size: 12px;
   }
   
-  body {
+  /* body {
     margin: 20px 0;
     padding: 0;
     font-family: arial, sans-serif;
     overflow: scroll;
-  }
+  } */
   
   img {
     max-width: 100%;
@@ -205,6 +205,10 @@ ul {
   }
   .page>button{
     color: rgb(39, 47, 54) !important;
+  }
+  .active, .li:hover {
+    background-color: #666;
+    color: white;
   }
   
   

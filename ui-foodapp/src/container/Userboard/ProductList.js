@@ -6,6 +6,8 @@ import Stack from '@mui/material/Stack';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Cookies from '../../helpers/cookie';
+//import { parse } from 'path/posix';
 
 const limit = 3
 
@@ -16,7 +18,9 @@ function ProductList(props) {
     const [productlist,setProductlist]=useState([])
     const [value,setValue] = useState(0)
     const list = props.data
-    console.log(list);
+    //console.log(list);
+    const user = Cookies.getCookie('userIn')
+    console.log(JSON.parse(user).id);
     
     const dispatch = useDispatch()
     
@@ -27,7 +31,11 @@ function ProductList(props) {
       const addtoCart = async(item,index)=>{
          const count = item.count?item.count:1
           const params = {product_id:item.id,product_name:item.name,count:count}
-        await dispatch.cartModel.addtoCart(params);
+          const id = JSON.parse(user).id
+          const uid = {id:id}
+          let userid = new URLSearchParams(uid).toString();
+          const op = {params,userid}
+        await dispatch.cartModel.addtoCart(op);
         }
         const buttonIncrement = (index)=>{
           const itemCount =list.data[index].count;

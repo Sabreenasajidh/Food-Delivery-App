@@ -1,0 +1,42 @@
+{
+    "createCart": {
+        "type": "object",
+        "properties": {
+            "product_id": {
+                "type": "number",
+                "example":78
+                
+            },
+            "product_name": {
+                "type": "string",
+                "example":"KFC"    
+            },
+            "count": {
+                "type": "number",
+                "example":2               
+            }
+        }
+    },
+
+    "updateCart": {
+        "type": "object",
+        "properties": {
+           
+            "product_name": {
+                "type": "string",
+                "example":"biriyanii"    
+            },
+            "product_id": {
+                "type": "number",
+                "example":116             
+            },
+            "count": {
+                "type": "number",
+                "example":2
+               
+            }
+        }
+    }
+    
+}
+

@@ -17,6 +17,7 @@ function UserSidebar() {
      const[params,setParams] = useState({offset:offset,limit:limit})
      const [productlist,setProductlist]=useState([])
     const [pageCount, setpageCount] = useState(0);
+    const [isHovering, setIsHovering] = useState('');
     
     useEffect(()=>{
       productList()
@@ -49,16 +50,22 @@ function UserSidebar() {
         setCategoryName(result.data) 
         setCategoryLength(result.data.length)
     }
-    const categoryClick = async(e)=>{
-       console.log(e.target.value);
-      const category_id =  e.target.value
-      params.category_id = category_id
-      setParams(params)
-      setOffset(0)
-      params.offset = offset
-      console.log(params,"params");
-      await productList(params)
-    }  
+    const categoryClick = async(index,item)=>{
+     // setIsHovering('active');
+       console.log(index,item);
+       
+
+      // const category_id =  e.target.value
+      // params.category_id = category_id
+      // setParams(params)
+      // setOffset(0)
+      // params.offset = offset
+      // console.log(params,"params");
+      // await productList(params)
+    } 
+    const className = (index)=>{
+      return 'active'
+    } 
     
     
   return (
@@ -67,7 +74,7 @@ function UserSidebar() {
         <h2>Recomended({categoryLength})</h2>
          <div className = "category">
             {categoryName.map((item, index) =>
-                <li value={item.id} onClick= {categoryClick}>{item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase()}</li>)} 
+                <li className={isHovering ? 'active' : ''} value={item.id} onClick= {()=>{categoryClick(index,item.id)}}>{item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase()}</li>)} 
           </div> 
         </div>
         <ListProducts data ={productlist} count = {pageCount}/>

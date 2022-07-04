@@ -1,8 +1,9 @@
 
 import {api} from "../../helpers/axios";
 
- const addtoCart =  (item)=>{
-       const result  =  api().post(`/api/user/cart/create`,item).then(value =>{
+ const addtoCart =  (data)=>{
+      console.log(data.userid);
+       const result  =  api().post(`/api/user/cart/create/?${data.userid}`,data.params).then(value =>{
       return value         
       }).catch((err)=>{      
         return err

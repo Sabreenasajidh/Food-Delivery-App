@@ -198,6 +198,7 @@ const addUser = async(req,res)=>{
         const hash = bcrypt.hashSync(req.body.password,salt)
         body.password_salt = salt 
         body.password = hash
+        console.log(req.user.id);
         body.created_by = req.user.id
         body.role_id= parseInt(req.body.role_id)
         console.log(body);
@@ -291,19 +292,22 @@ const deleteUser = async(req,res)=>{
 const addorUpdateCart  =async(req,res)=>{
     try{
         const {body} = req
+        console.log(req.query);
+        console.log(req.body);
         const reqData = ['product_id','product_name','count']
         reqData.forEach(element => {
             if(!body[element] ||body[element] === null) 
             throw ({data: element+' missing'});
         });  
-        const data = await Cart.findOne({where:{user_id:req.user.id,product_id:req.body.product_id}})
+        const data = await Cart.findOne({where:{user_id:req.query.id,product_id:req.body.product_id}})
         if(data){
-            await Cart.increment({count: req.body.count}, {where:{user_id:req.user.id,product_id:req.body.product_id}})
+            console.log("::::::::::;;");
+            await Cart.increment({count: req.body.count}, {where:{user_id:req.query.id,product_id:req.body.product_id}})
             return res.status(200).json({data:"Success"})
 
         }else{
-
-            body.user_id = req.user.id
+            console.log("LLLLLLLLLLLLL");
+            body.user_id = req.query.id
             await Cart.create(body)
             return res.status(200).json({data:"Success"})
         }
@@ -331,10 +335,11 @@ const listcartItems = async(req,res)=>{
     try{
 
         console.log("List Cart Items");
+        console.log(req.query);
        const list = await Cart.findAll({where:{user_id:req.user.id},
         include:[{ model: Product}]
        })
-       console.log(list);
+      // console.log(list);
     //    const totalPrice= await Product.sum('price',{where:{user_id:req.user.id}});
     //    console.log(totalPrice);
        return res.status(200).json({data:list})

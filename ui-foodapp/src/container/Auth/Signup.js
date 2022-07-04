@@ -49,6 +49,7 @@ const Signup = () => {
 });
   
   return (
+    <div className = 'auth-div'>
     <div className = "signup_form">
             
     <div className="signup_title">Create an account</div>
@@ -150,6 +151,7 @@ const Signup = () => {
       <button type="sumbit" className="submit">submit</button>
     </form>
     <ToastContainer/>
+    </div>
     </div>
   );
 };

@@ -1,0 +1,308 @@
+{
+    "/api/user/cart/create": {
+        "post": {
+            "tags": [
+                "Cart"
+            ],
+            "summary": "Create Cart",
+            "description": "Create cart",
+            "operationId": "createcart",
+            "produces": [
+                "application/json"
+            ],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "id",
+                    "required": true,
+                    "type": "number",
+                    "description": "userId",
+                    "example":3
+                  }
+            ],
+            "requestBody": {
+                "description": "create cart",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/definitions/createCart"                           
+                        }
+                       
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        },
+                        "example": {
+                            "message": "Cart added successfully"
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Invalid request",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "error": {
+                                "type": "string"
+                            }
+                        },
+                        "example": {
+                            "error": "failed to add cart."
+                        }
+                    }
+                },
+                "403": {
+                    "description": "Unauthorized access",
+                    "schema": {
+                        "type": "object",
+                        "example": {
+                            "error": "Unauthorized access"
+                        }
+                    }
+                }
+            },
+            "security": [
+                {
+                    "cookieAuth": []
+                }
+            ]
+        }
+    },
+    "/api/user/cart": {
+        "get": {
+            "tags": [
+                "Cart"
+            ],
+            "summary": "List Cart",
+            "description": "List cart",
+            "operationId": "listcart",
+            "produces": [
+                "application/json"
+            ],
+            "parameters": [],
+            "requestBody": {
+                "description": "list cart",
+                "content": {
+                    "application/json": {
+                       
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        },
+                        "example": {
+                            "message": "Cart lisetd successfully"
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Invalid request",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "error": {
+                                "type": "string"
+                            }
+                        },
+                        "example": {
+                            "error": "failed to list cart"
+                        }
+                    }
+                },
+                "403": {
+                    "description": "Unauthorized access",
+                    "schema": {
+                        "type": "object",
+                        "example": {
+                            "error": "Unauthorized access"
+                        }
+                    }
+                }
+            },
+            "security": [
+                {
+                    "cookieAuth": []
+                }
+            ]
+        }
+    },
+    "/api/user/cart/update": {
+        "put": {
+            "tags": [
+                "Cart"
+            ],
+            "summary": "Update Cart",
+            "description": "Update cart",
+            "operationId": "updatecart",
+            "produces": [
+                "application/json"
+            ],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "id",
+                    "required": true,
+                    "type": "number",
+                    "description": "userId",
+                    "example":3
+                  }
+            ],
+            "requestBody": {
+                "description": "update cart",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/definitions/updateCart"                           
+                        }
+                       
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        },
+                        "example": {
+                            "message": "User added successfully"
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Invalid request",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "error": {
+                                "type": "string"
+                            }
+                        },
+                        "example": {
+                            "error": "failed to add a User."
+                        }
+                    }
+                },
+                "403": {
+                    "description": "Unauthorized access",
+                    "schema": {
+                        "type": "object",
+                        "example": {
+                            "error": "Unauthorized access"
+                        }
+                    }
+                }
+            },
+            "security": [
+                {
+                    "cookieAuth": []
+                }
+            ]
+        }
+    },
+    "/api/user/cart/delete": {
+        "delete": {
+            "tags": [
+                "Cart"
+            ],
+            "summary": "Delete Cart",
+            "description": "Delete cart",
+            "operationId": "deletecart",
+            "produces": [
+                "application/json"
+            ],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "user_id",
+                    "required": true,
+                    "type": "number",
+                    "description": "userId",
+                    "example":2
+                  },
+                  {
+                    "in": "query",
+                    "name": "product_id",
+                    "required": true,
+                    "type": "number",
+                    "description": "productId",
+                    "example":9
+                  }
+
+            ],
+            "requestBody": {
+                "description": "delete cart",
+                "content": {
+                    "application/json": {
+                       
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        },
+                        "example": {
+                            "message": "User added successfully"
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Invalid request",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "error": {
+                                "type": "string"
+                            }
+                        },
+                        "example": {
+                            "error": "failed to add a User."
+                        }
+                    }
+                },
+                "403": {
+                    "description": "Unauthorized access",
+                    "schema": {
+                        "type": "object",
+                        "example": {
+                            "error": "Unauthorized access"
+                        }
+                    }
+                }
+            },
+            "security": [
+                {
+                    "cookieAuth": []
+                }
+            ]
+        }
+    }
+}

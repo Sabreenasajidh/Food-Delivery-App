@@ -1,25 +1,27 @@
-body{
-    /* background: rgb(2, 0, 36);
-    background: radial-gradient(
-      circle,
-      rgba(2, 0, 36, 1) 0%,
-      rgba(30, 54, 59, 1) 0%,
-      rgba(93, 93, 116, 1) 100%
-    ); */
-  background-image: url("./img1.jpg");
-  background-repeat: no-repeat;
-  background-size: auto;
-  } 
+
+  .auth-div{
+    background-image: url("./img1.jpg");
+    background-color: lightblue;
+    height: 1200px;
+  }
+  .login-container{
+    width: 400px;
+    height: 400px;
+    margin-left:570px ;
+    border-radius: 5px;
+    padding-top: 190px;
+  }
   .signup_form {
-   
-    margin: auto;
+    
     background-color: chocolate;
     border-radius: 20px;
     box-sizing: border-box;
     height: 750px;
     padding: 20px;
     width: 320px;
-    margin-top: 50px;
+    margin: auto;
+    margin-top: 2px;
+    /* margin-top: 50px; */
     
   }
   
@@ -69,17 +71,6 @@ body{
     width: 100%;
   }
   
-  /* .cut {
-    background-color: #15172b;
-    border-radius: 10px;
-    height: 20px;
-    left: 20px;
-    position: absolute;
-    top: -20px;
-    transform: translateY(0);
-    transition: transform 200ms;
-    width: 76px;
-  } */
   
   .cut-short {
     width: 50px;
@@ -128,14 +119,14 @@ body{
     text-align: center;
     width: 100%;
   }
-  
-  /* button {
-    background: #0563b4 !important;
-  } */
   p {
     color: red;
     margin-top: 5px;
   }
+  
+  /* button {
+    background: #0563b4 !important;
+  } */
   /* .root{
     background-color: brown;
   } */
@@ -149,11 +140,34 @@ body{
     font-weight: 400;
     font-family: 'Fira Sans', sans-serif;
   } */
-  .signin-div{
+  
+  /* .signin-div{
     background-color:wheat;
     width: 400px;
     height: 400px;
     margin-left:570px ;
     margin-top: 190px;
     border-radius: 5px;
-  }
+  } */
+  /* .cut {
+    background-color: #15172b;
+    border-radius: 10px;
+    height: 20px;
+    left: 20px;
+    position: absolute;
+    top: -20px;
+    transform: translateY(0);
+    transition: transform 200ms;
+    width: 76px;
+    /* body{ */
+        /* background: rgb(2, 0, 36);
+        background: radial-gradient(
+          circle,
+          rgba(2, 0, 36, 1) 0%,
+          rgba(30, 54, 59, 1) 0%,
+          rgba(93, 93, 116, 1) 100%
+        ); */
+      /* background-image: url("./img1.jpg");
+      background-repeat: no-repeat;
+      background-size: auto;
+      }  */

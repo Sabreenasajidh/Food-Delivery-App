@@ -1,0 +1,81 @@
+{
+    "createUser": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": "number",
+                "example":20
+                
+            },
+            "first_name": {
+                "type": "string",
+                "example":"Favas"    
+            },
+            "last_name": {
+                "type": "string",
+                "example":"Tnr"               
+            },
+            "email": {
+                "type": "email",
+                "example":"fvs@gmail.com"               
+            },
+            "status": {
+                "type": "string",
+                "example":"active"
+               
+            },
+            "phone_number": {
+                "type": "number",
+                "example":600
+               
+            },
+            "password":{
+                "type": "string",
+                "example":"jazakallah5"
+                },
+            "confirm_password": {
+                "type": "string",
+                "example":"jazakallah5"
+               
+            },
+            "role_id":{
+                "type":"number",
+                "example":2
+            }
+        }
+    },
+    "updateUser": {
+        "type": "object",
+        "properties": {
+           
+            "first_name": {
+                "type": "string",
+                "example":"sam"    
+            },
+            "last_name": {
+                "type": "string",
+                "example":"john"               
+            },
+            "status": {
+                "type": "string",
+                "example":"active"
+               
+            },
+            "phone_number": {
+                "type": "number",
+                "example":40012
+               
+            },
+            "role":{
+                "type":"string",
+                "example":"admin"
+            },
+            "email":{
+                "type":"email",
+                "example":"john@gmail.com"
+            }
+        }
+    }
+    
+}
+

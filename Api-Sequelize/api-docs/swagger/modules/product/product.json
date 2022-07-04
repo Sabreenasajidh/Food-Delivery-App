@@ -4,6 +4,7 @@
             "tags": [
                 "Product"
             ],
+            "summary": "Create new Product",
             "description": "Create paroduct",
             "operationId": "createproduct",
             "produces": [
@@ -15,8 +16,7 @@
                 "content": {
                     "multipart/form-data": {
                         "schema": {
-                            "$ref": "#/definitions/createProduct"
-                            
+                            "$ref": "#/definitions/createProduct"                           
                         }
                     }
                 }
@@ -144,6 +144,153 @@
                     },
                     "example": {
                         "error": "failed to display cart."
+                    }
+                }
+            },
+            "403": {
+                "description": "Unauthorized access",
+                "schema": {
+                    "type": "object",
+                    "example": {
+                        "error": "Unauthorized access"
+                    }
+                }
+            }
+        },
+        "security": [
+            {
+              "cookieAuth":[]
+            }
+        ]
+
+        }
+    },
+
+    "/api/products/update/{id}": {
+        "put": {
+          "tags": [
+            "Product"
+          ],
+          "summary": "Update Product",
+          "description": "Update details of a single product",
+          "operationId": "updateproduct",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "type": "number",
+              "example":9
+            }          
+          ],
+          "requestBody": {
+            "description": "update product body payload",
+            "content": {
+                "multipart/form-data": {
+                    "schema": {
+                        "$ref": "#/definitions/updateProduct"
+                        
+                    }
+                }
+            }
+        },
+          "responses": {
+            "200": {
+                "description": "successful operation",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "message": {
+                            "type": "string"
+                        }
+                    },
+                    "example": {
+                        "message": "updated products"
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid request",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "error": {
+                            "type": "string"
+                        }
+                    },
+                    "example": {
+                        "error": "failed to update product details."
+                    }
+                }
+            },
+            "403": {
+                "description": "Unauthorized access",
+                "schema": {
+                    "type": "object",
+                    "example": {
+                        "error": "Unauthorized access"
+                    }
+                }
+            }
+        },
+        "security": [
+            {
+              "cookieAuth":[]
+            }
+        ]
+
+        }
+    },
+    "/api/products/delete/{id}": {
+        "delete": {
+          "tags": [
+            "Product"
+          ],
+          "summary": "Delete Product",
+          "description": "Delete single product",
+          "operationId": "deleteproduct",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "type": "number",
+              "example":9
+            }          
+          ],
+          "requestBody": {},
+          "responses": {
+            "200": {
+                "description": "successful operation",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "message": {
+                            "type": "string"
+                        }
+                    },
+                    "example": {
+                        "message": "updated products"
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid request",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "error": {
+                            "type": "string"
+                        }
+                    },
+                    "example": {
+                        "error": "failed to update product details."
                     }
                 }
             },
