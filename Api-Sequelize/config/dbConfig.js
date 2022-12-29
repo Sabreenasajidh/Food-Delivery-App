@@ -7,5 +7,5 @@ export default{
     PORT:9000,
     JWT_TOKEN:'secret',
     AUTH_USER:'sabreenatest34@gmail.com',
-    AUTH_PASS:'sabreenatest@1234'
+    AUTH_PASS:'qvkxdeponwxwewmk'
 }

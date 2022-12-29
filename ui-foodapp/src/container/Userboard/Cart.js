@@ -1,197 +1,192 @@
 import React,{useEffect,useState} from 'react'
-import Header from './UserHeader'
 import {useDispatch } from 'react-redux';
 import {useNavigate } from 'react-router';
-import logo from './logo.png'
-import  Cookie from '../../helpers/cookie'
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import './Prodctss.css'
+import Header from './UserHeader'
+import Cookies from '../../helpers/cookie';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from '@mui/material/Stack';
 import Popup from 'reactjs-popup'
-import Grid from '@mui/material/Grid';
-import { ToastContainer } from 'react-toastify';
-import './cart.css'
+import cart from './cart.png'
 
 function Cart() {
-  
+    const user = Cookies.getCookie('userIn')
     const [CartList,setCartList] = useState([])
-    //const[params,setParam] =useState([])
-    const [isOpen, setIsOpen] = useState(false);
+    const [prodCount,setProdCount] = useState(0)
     const [value,setValue] = useState(0)
+    const [amount,setAmount] = useState(0)
+    const [isOpen, setIsOpen] = useState(false);
     const dispatch= useDispatch()
     const nav = useNavigate()
-    const user =  Cookie.getCookie('userIn')
 
     useEffect(()=>{
-      
-      //setUser(userdata)
         cartlist()
+        prod_count()
+      
     },[])
-    console.log(CartList);
-
+    const handleOpen = (index) => {
+        const status =CartList[index].status;
+        console.log(status);
+        CartList[index].status = isOpen ?  isOpen: false;
+        //     setValue(itemCount)
+        setIsOpen(status );
+    }
+    
+    
     const cartlist  = async()=>{
         const list = await dispatch.cartModel.getlist();
         setCartList(list.data.data)
-    }   
-
-    const tot_amnt = ()=> {
-        const dd = ! CartList? null  : CartList.reduce((totalHolder,m) => totalHolder + m.product.price,0)
-        return dd
-
+        console.log(list.data.data);
+        setAmount(list.data.data.reduce((totalHolder,item) => totalHolder + (item.count*item.product.price),0))
+    }  
+    const prod_count = async()=>{
+        const result = await dispatch.cartModel.getCount()  
+        console.log(result);
+        setProdCount(!result.count? 0 :result.count) 
     }
+    const onAdd = (item)=>{
+        setProdCount(prodCount+1)
+        const itemCount =item.count+1;
+        item.count = itemCount
+        setValue(itemCount)
+        setAmount(amount+item.product.price)
+        const params = {product_id:item.product_id,product_name:item.product_name,count:item.count}
+        updateCart(params)  
+    }
+    const onDelete = async(item)=>{
+        setProdCount(prodCount-1)
+        if((item.count-1) < 0 || (item.count-1) == 0){
+            setAmount(amount-((item.count - 1)*item.product.price))
+            setValue(0)
+            const params = {product_id:item.product_id,product_name:item.product_name,count:0}
+            await updateCart(params)
+            cartlist()
+        }else{
+            const itemCount =item.count-1;
+            item.count = itemCount
+            setValue(itemCount)
+            setAmount(amount-item.product.price)
+            const params = {product_id:item.product_id,product_name:item.product_name,count:item.count}
+            updateCart(params) 
+        }
+    }
+    const  deleteOrder = async(item) => {
+        setIsOpen(false );
+        if(item){
+            const amt = amount - (item.count*item.product.price)
+            setAmount(amt)
+    
+            setProdCount(prodCount-item.count)
+            const params = {user_id:item.user_id,product_id:item.product_id}
+            await dispatch.cartModel.deleteOrder(params) 
+            cartlist()
 
+        }else{
+          setProdCount(0);
+            const uid = {user_id:JSON.parse(user).id}
+            let userid = new URLSearchParams(uid).toString();
+            
+            await dispatch.cartModel.deleteOrder(userid) 
+            cartlist()
+        }
+      }
+
+
+    const updateCart = async(params)=>{
+        const uid = {id:JSON.parse(user).id}
+        let userid = new URLSearchParams(uid).toString();
+        const op = {params,userid}
+        const res = await dispatch.cartModel.addtoCart(op);      
+    }
     const proceedButton = async(e)=>{
-      // const dd = JSON.parse(user)
-      // console.log(dd.id);
         const randomPassword =Math.random().toString(36).slice(-8);
-        console.log(randomPassword);
-         const res = CartList.map((item, index) =>{
+        const res = CartList.map((item, index) =>{
             return {
                 product_id:item.product.id,
                 item_count:item.count,
                 amount:item.product.price*item.count,
                 user_id:JSON.parse(user).id,
-                reference_id : randomPassword
-                
+                reference_id : randomPassword    
             }
-
-        })
-        console.log(res);
-        await dispatch.cartModel.addorder(res)
-        nav('/customer/order')
-            
-
-    }
-    const handleOpen = (index) => {
-      const status =CartList[index].status;
-      console.log(status);
-      CartList[index].status = isOpen ?  isOpen: false;
-      //     setValue(itemCount)
-      setIsOpen(status );
-    }
-    
-   const  deleteOrder = async(item,index) => {
-      setIsOpen(false );
-      const params = {user_id:item.user_id,product_id:item.product_id}
-      const delete_product =await dispatch.cartModel.deleteOrder(params);
-      if(delete_product){
-        cartlist()
+          })
+          await dispatch.cartModel.addorder(res)
+          nav('/customer/order')
       }
-    }
-    const buttonIncrement = (index)=>{
-      const itemCount =CartList[index].count;
-      CartList[index].count = itemCount ?  (itemCount +1): 2;
-      setValue(itemCount)
-      
-    }
-    const decrementButton = (index)=>{
-      const itemCount =CartList[index].count;
-      CartList[index].count = itemCount ?  (itemCount -1): 1;
-      setValue(itemCount)
-    }
-    const updateCart = async(item,index)=>{
-      console.log(item);
-      const count = item.count?item.count:1
-       const params = {product_id:item.id,count:count,user_id:item.user_id,product_name:item.product_name}
-     const res = await dispatch.cartModel.updateCart(params);
-     console.log(res);
-     }
-    
-    
-    
-
+      const home = ()=>{
+        nav('/customer')
+       }
   return (
-  <div>
-    <Header />
-    <header className="container">
-        <h1>Shopping Cart</h1>
-
-        <ul className="breadcrumb">
-          <li>Home</li>
-          <li>Shopping Cart</li>
-        </ul>
-
-        <span className="count">{CartList.length? CartList.length:0} items in the bag</span>
-    </header>
-
-<section className="container">
-
-{CartList.length === 0?  <h3>Ooops :( Nothing in your Cart</h3> : (
-<ul className="products">
-  {CartList.map((item, index) => {
-    return (
-      <li className="row" key={index}>
-        <div className="col left">
-          <div className="thumbnail">
-              <img src={`http://localhost:9000/${item.product.image}`} alt={item.name} />
-          </div>
-          <div className="detail">
-            <div className="name">
-              {item.product.name}
-            </div>
-            <div className="description">{item.product.description}</div>
-            <div className="price">Rs.{item.product.price}</div>
-          </div>
-        </div>
-
-        <div className="col right">
-          <div className="quantity" >
-            {/* <input
-              type="number"
-              className="quantity"
-              step="1"
-               value={item.count}
-            /> */}
-             <ButtonGroup size="large" aria-label="large outlined button group">
-             <Button onClick = {()=>{decrementButton(index)}}>-</Button>
-                <Button disabled value= {item.count}>{item.count}</Button>
-                <Button onClick={()=>{buttonIncrement(index)}}>+</Button>
-            </ButtonGroup>
-          </div>
-          <div className="remove">
-            <Button variant="outlined" startIcon={<AddShoppingCartIcon />} onClick={()=>{updateCart(item,index)}}>Update</Button>
-            </div>
-
-          <div className="remove">
-          <Stack direction="row" spacing={2}>
-
-          <Popup
-            trigger= {<Button variant="outlined" startIcon={ <DeleteIcon />}>  Delete  </Button>} 
-            open={isOpen}
-            onOpen={()=>{handleOpen(index)}}
-            position="right center"
-          >
-            <button onClick={()=>{deleteOrder(item,index)}}>Confirm</button>
-            </Popup>
+    <div>
+    <Header badge={prodCount}/>
+    <div class="CartContainer">
+         {!CartList.length?  (
+         <div className= "h">
+            <h3 className="h">Ooops :( Nothing in your Cart</h3>
+            <button className="cart-empty" onClick = {home}>Continue Shopping</button>
+            <img src ={cart} />
+         </div>
+       ) : (
+        <div>
+   	   <div class="Header">
+   	   	<h3 class="Heading">Shopping Cart</h3>
+            <Stack direction="row" spacing={4}>
+                <Popup
+                    trigger= {<h5 class="Action" >Remove all</h5>}
+                    open={isOpen}
+                    
+                    position="right center"
+                >
+                <button onClick={()=>{deleteOrder()}}>Confirm</button>
+                </Popup>
             </Stack>
-            
+   	   </div>
+          {CartList.map((item, index) => {
+              return (
+                <div class="Cart-Items">
+                    {/* <div class="image-box">
+                    <img src={`http://localhost:9000/${item.product.image}`} alt={item.name} height="70px" />
+                    </div> */}
+                    <div class="about">
+                        <h1 class="title">{item.product.name}</h1>
+                        <h3 class="subtitle">{item.product.description}</h3>
+                    </div>
+                    <div class="counter">
+                        <div className="btn" onClick={()=>{onDelete(item)}}>-</div>
+                        <div className="count" value = {item.count}>{item.count}</div>
+                        <div className="btn" onClick = {()=>{onAdd(item)}}>+</div>
+                    </div>
+                    <div class="prices">
+                        <div class="amount">${item.count*item.product.price}</div>
+                        {/* <div class="remove" ><u><DeleteIcon /></u></div> */}
+                        <Stack direction="row" spacing={4}>
+                            <Popup
+                                trigger= {<DeleteIcon />}
+                                open={isOpen}
+                                onOpen={()=>{handleOpen(index)}}
+                                position="right center"
+                            >
+                            <button onClick={()=>{deleteOrder(item)}}>Confirm</button>
+                            </Popup>
+                        </Stack>
+                    </div>
+                </div>
+
+              )})}
+          <hr /> 
+   	 <div class="checkout">
+   	 <div class="total">
+   	 	<div>
+   	 		<div class="Subtotal">Sub-Total</div>
+   	 		<div class="items">{prodCount} items</div>
+   	 	</div>
+   	 	<div class="total-amount">${amount}</div>
+   	 </div>
+   	 <button class="button" onClick = {proceedButton}>Checkout</button></div>
           </div>
-        </div>
-      </li>
-    );
-  })}
-</ul>)}
-
-</section>
-<section className="container">
-    <div className="summary">
-    <ul>
-         
-          <li className="total">
-            Total <span>Rs.{tot_amnt()}</span>
-          </li>
-     </ul>
-    </div>
-
-      <div className="checkout">
-        <button type="button" onClick = {proceedButton}>Check Out</button>
-      </div>
-
-</section>
-<ToastContainer />
-</div>
+       )}
+   	 
+   </div>
+   </div>
   )
 }
 

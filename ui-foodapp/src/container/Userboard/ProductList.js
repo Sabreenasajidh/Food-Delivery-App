@@ -1,111 +1,61 @@
 import React,{useState,useEffect} from 'react'
 import logo from './logo.png'
-import {useDispatch,useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import Stack from '@mui/material/Stack';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Cookies from '../../helpers/cookie';
-//import { parse } from 'path/posix';
-
-const limit = 3
-
-
-
-
 function ProductList(props) {
-    const [productlist,setProductlist]=useState([])
-    const [value,setValue] = useState(0)
-    const list = props.data
-    //console.log(list);
-    const user = Cookies.getCookie('userIn')
-    console.log(JSON.parse(user).id);
+    const {onAdd,onDelete,productlist} = props
     
-    const dispatch = useDispatch()
     
-    useEffect(()=>{
-      setProductlist(props.data)
-      },[list])
-    
-      const addtoCart = async(item,index)=>{
-         const count = item.count?item.count:1
-          const params = {product_id:item.id,product_name:item.name,count:count}
-          const id = JSON.parse(user).id
-          const uid = {id:id}
-          let userid = new URLSearchParams(uid).toString();
-          const op = {params,userid}
-        await dispatch.cartModel.addtoCart(op);
-        }
-        const buttonIncrement = (index)=>{
-          const itemCount =list.data[index].count;
-          list.data[index].count = itemCount ?  (itemCount +1): 1;
-          setValue(itemCount)
-          
-        }
-        const decrementButton = (index)=>{
-          const itemCount =list.data[index].count;
-          list.data[index].count = itemCount ?  (itemCount -1): 1;
-          setValue(itemCount)
-        }
-        console.log(productlist);
   return (
       <div>
-           {!productlist.data ? null : (
-               
-            <header className="container">
-                <h2>{productlist.category_name}</h2>
-            </header>
-           )}
-           <section className="container">
-
                 {!productlist.count?  <h3>Ooops :( Nothing in your Cart</h3> : (
-                <ul className="products">
-                {productlist.data.map((item, index) => {
-                    return (
-                    <li className="row" key={index}>
-                        <div className="col left">
-                        <div className="thumbnail">
-                            {! <img src={`http://localhost:9000/${item.image}`} alt={item.name} />?<img src={logo} />:
-                            <img src={`http://localhost:9000/${item.image}`} alt={item.name} />
-                            
-                        }
+                    <div className="wrapper">
+                        <div className="title">
+                        
+                        <h4>Fresh food for good Health{!productlist.category_name?<span>All Menu</span>:<span>{productlist.category_name} Menu</span>}</h4>
                         </div>
-                        <div className="detail">
-                            <div className="name">
-                            {item.name}
-                            </div>
-                            <div className="description">{item.description}</div>
-                            <div className="price">Rs.{item.price}</div>
-                        </div>
-                        </div>
-
-                        <div className="col right">
-                            <div className="quantity">
-                            <ButtonGroup size="large" aria-label="large outlined button group" color="secondary">
-
+                        <div className="menu">
+                        {productlist.data.map((item, index) => {
+                            return(
+                            <div className="single-menu">
+                                <div className="menu-content">
+                                    <h4>{item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase()}</h4>
+                                    <span>${item.price}</span>
+                                    <p>{item.description}</p>
                                 
-                                <Button onClick = {()=>{decrementButton(index)}}>-</Button>
-                                {<Button disabled value= {item.count? item.count: 1}>{item.count? item.count: 1}</Button>}
-                                <Button onClick={()=>{buttonIncrement(index)}}>+</Button>
+                                </div>
+                                <div className="menu-button">
+                                <img src ={logo}/>
+                                 <ButtonGroup size="large" aria-label="large outlined button group" color="secondary" >
 
-                            </ButtonGroup>
+                                 {(item.prod_count && item.prod_count.count > 0)?(
+                                    <div className="menubut">
+                                    <Button onClick = {()=>{onDelete(item)}}>-</Button>
+                                    <Button disabled value= {item.prod_count.count}> {item.prod_count.count}</Button>
+                                    <Button onClick={()=>{onAdd(item)}}>+</Button>
+                                    </div>
+                                ):
+                                (
+                                <div className="menubut">
+                                <Button variant="outlined" startIcon={<AddShoppingCartIcon />}  onClick={()=>{onAdd(item)}}>
+                                    Add to cart
+                                </Button>
+                                </div>
+                                )}
+                                </ButtonGroup>
+
+                                </div>
                             </div>
-
-                        <div className="remove"> </div>
-                        <Stack direction="row" spacing={1}>
-                        <Button variant="outlined" startIcon={<AddShoppingCartIcon />}  onClick={()=>{addtoCart(item,index)}}>
-                            Add to cart
-                        </Button>
-                        </Stack>
-        
+                            
+                            )})}
                         </div>
-                    </li>
-                    );
-                })}
-                </ul>)}
+                    </div>
+                
+                )}
 
-            </section>
+            
 
             <ToastContainer />
       </div>

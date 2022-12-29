@@ -124,50 +124,34 @@
     margin-top: 5px;
   }
   
-  /* button {
-    background: #0563b4 !important;
-  } */
-  /* .root{
-    background-color: brown;
-  } */
-  /* * {
-    box-sizing: border-box;
-  }
-  body {
-    background: #1C8EF9 !important;
-    min-height: 100vh;
-    display: flex;
-    font-weight: 400;
-    font-family: 'Fira Sans', sans-serif;
-  } */
-  
-  /* .signin-div{
-    background-color:wheat;
-    width: 400px;
-    height: 400px;
-    margin-left:570px ;
-    margin-top: 190px;
-    border-radius: 5px;
-  } */
-  /* .cut {
-    background-color: #15172b;
-    border-radius: 10px;
-    height: 20px;
-    left: 20px;
+  .reset_form{
+    height: 420px;
+    width: 380px;
     position: absolute;
-    top: -20px;
-    transform: translateY(0);
-    transition: transform 200ms;
-    width: 76px;
-    /* body{ */
-        /* background: rgb(2, 0, 36);
-        background: radial-gradient(
-          circle,
-          rgba(2, 0, 36, 1) 0%,
-          rgba(30, 54, 59, 1) 0%,
-          rgba(93, 93, 116, 1) 100%
-        ); */
-      /* background-image: url("./img1.jpg");
-      background-repeat: no-repeat;
-      background-size: auto;
-      }  */
+    border-radius: 10px;
+    background-color: black;
+    border: 2px solid;
+    color: white;
+    margin: 200px 500px;
+  }
+.reset_title{
+  font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+    margin-top: 20px;
+    font-family: cursive;
+}
+.resetfrom{
+  padding: 50px 30px;
+}
+.resetfrom a{
+color: white;
+float: right;
+padding-top: 20px;
+}
+.reset_form a{
+  color: white;
+  float: right;
+  padding-right: 20px;
+  }

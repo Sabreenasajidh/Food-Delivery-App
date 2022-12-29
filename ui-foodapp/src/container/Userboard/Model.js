@@ -18,9 +18,10 @@ const  cart = {
             try {
                 console.log(data);
                 let response =  await service.addtoCart(data);
-                    console.log(response);
+                    
                  if(response.data){
                      toaster.successToast(response.data.data)
+                     return response
 
                  }
             //         this.PRODUCTS(response.data);
@@ -69,11 +70,25 @@ const  cart = {
             return resp;
         },
         async deleteOrder (data){
-            console.log(data);
             let resp = await service.deleteOrder(data)
             return resp;
 
-        }
+        },
+        async getCount() {
+
+            try {
+                
+                let response =  await service.getCount();
+                this.CART(response.data);
+                 if(response.data){ 
+                     return response.data
+                 }
+            }
+            catch (e) {
+                console.log(e);
+                toaster.errorToast(e)
+            }
+        },
         }
 }
 export default cart

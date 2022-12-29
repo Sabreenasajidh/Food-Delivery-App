@@ -38,7 +38,7 @@ const listOrder = ()=>{
   return result
 }
 const updateCart = (data)=>{
-  console.log(data);
+  
   const result  =  api().put(`/api/user/cart/update`,data).then(value =>{
     return value         
     }).catch((err)=>{      
@@ -47,12 +47,11 @@ const updateCart = (data)=>{
   return result
 }
 const deleteOrder = (data)=>{
-  console.log(data);
+ 
   let param = new URLSearchParams(data).toString();
 
-console.log(param);
   const result  =  api().delete(`/api/user/cart/delete/?${param}`).then(value =>{
-    console.log(value);
+    
     return value         
     }).catch((err)=>{      
       return err
@@ -60,4 +59,14 @@ console.log(param);
   return result
 
 }
-export {addtoCart,getlist,addOrder,listOrder,updateCart,deleteOrder}
+const getCount = ()=>{
+  const result  =  api().get(`/api/user/cart/count`).then(value =>{
+   
+    return value         
+    }).catch((err)=>{  
+      
+      return err
+  })
+  return result
+}
+export {addtoCart,getlist,addOrder,listOrder,updateCart,deleteOrder,getCount}

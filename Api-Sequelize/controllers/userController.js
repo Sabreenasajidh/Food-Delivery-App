@@ -6,8 +6,8 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer'
 import  config  from '../config/dbConfig.js';
-import Sequelize from 'sequelize';
 import Product from '../models/Product.js';
+import Sequelize from 'sequelize';
 const Op = Sequelize.Op;
 import crypto from 'crypto';
 
@@ -249,13 +249,11 @@ const getRole = async(req,res)=>{
 }
 const updateUser = async(req,res)=>{
     try{
-        console.log(req.body.role);
         const {body} = req
         const role = await Role.findOne({where:{role_name:body.role}})
         const role_id = role.id
-        console.log(role_id);
         body.role_id = role_id
-       const data = await User.update(
+       await User.update(
            {
                first_name:req.body.first_name,
                last_name:req.body.last_name,
@@ -275,7 +273,6 @@ const updateUser = async(req,res)=>{
 }
 const deleteUser = async(req,res)=>{
     try{
-        console.log("Delete prodcut with id "+req.params.id);
         User.update(
             {
                 status:'trash'
@@ -292,59 +289,42 @@ const deleteUser = async(req,res)=>{
 const addorUpdateCart  =async(req,res)=>{
     try{
         const {body} = req
-        console.log(req.query);
-        console.log(req.body);
-        const reqData = ['product_id','product_name','count']
+        const reqData = ['product_id','product_name']
         reqData.forEach(element => {
             if(!body[element] ||body[element] === null) 
             throw ({data: element+' missing'});
         });  
-        const data = await Cart.findOne({where:{user_id:req.query.id,product_id:req.body.product_id}})
+        const data = await Cart.findOne({where:{user_id:req.user.id,product_id:req.body.product_id}})
+        if(req.body.count == 0){
+            await Cart.destroy({where:{user_id:req.query.id,product_id:req.body.product_id}});
+        return res.status(200).json({data:'success'})
+
+        }
         if(data){
-            console.log("::::::::::;;");
-            await Cart.increment({count: req.body.count}, {where:{user_id:req.query.id,product_id:req.body.product_id}})
+            await Cart.update(
+                {count:req.body.count},
+                {where: { user_id: req.query.id,product_id:req.body.product_id }}
+            );
             return res.status(200).json({data:"Success"})
 
         }else{
-            console.log("LLLLLLLLLLLLL");
             body.user_id = req.query.id
             await Cart.create(body)
             return res.status(200).json({data:"Success"})
         }
     }catch(e){
-        console.log(e);
         return res.status(400).json(e)
     }
 
 }
-// const updateCart = async(req,res)=>{
-//     try{
-//         const {body} = req
-//        const data = await User.update(
-//            {count:req.body.count},
-//            {where: { user_id: req.body.user_id,product_id:req.body.product_id }}
-//         );
-//          return res.status(200).json({data:"success"})
 
-//     }catch(e){
-//        return res.status(400).json({data:"Error"+e})
-
-//     }
-// }
 const listcartItems = async(req,res)=>{
     try{
-
-        console.log("List Cart Items");
-        console.log(req.query);
        const list = await Cart.findAll({where:{user_id:req.user.id},
         include:[{ model: Product}]
        })
-      // console.log(list);
-    //    const totalPrice= await Product.sum('price',{where:{user_id:req.user.id}});
-    //    console.log(totalPrice);
        return res.status(200).json({data:list})
     }catch(e){
-        console.log(e);
         return res.status(400).json(e)
     }   
 }
@@ -370,19 +350,28 @@ const addOrder = async(req,res)=>{
 }
 const listOrder = async(req,res)=>{
     try{
-        
-        const data = await Order.findAll({where:{user_id:req.user.id}, include:[{ model: Product}]})
+        //const data = await Order.findAll({where:{user_id:req.user.id}, include:[{ model: Product}]})
+        const data = await Order.findAll(
+            {
+                where:{ user_id:req.user.id}, 
+                attributes:['reference_id','item_count','amount','createdAt'],
+                include: [{
+                    model: Product,
+                    attributes: ['name','price'],
+                }]
+            },
+            {group: 'reference_id'}
+        )
     //    const data =  await Order.findAll({where:{user_id:req.user.id},include:[{ model: Product}]})
-        console.log(data);
+        console.log(req.user.id);
         return res.status(200).json({data:data})
     }catch(e){
+        console.log(e);
         return res.status(400).json(e)
     }
 }
 const deleteCart = async(req,res)=>{
     try{
-
-        console.log(req.query);
         const {query} = req
         await Cart.destroy({where: query });
         return res.status(200).json({data:'success'})
@@ -392,4 +381,90 @@ const deleteCart = async(req,res)=>{
     }
 
 }
-export default {signUp,login,listUsers,addUser,getRole,updateUser,deleteUser,addorUpdateCart,listcartItems,addOrder,listOrder,deleteCart}
+const getCount = async(req,res)=>{
+    try{
+
+        // const {rows,count} = await Cart.findAndCountAll({where:{ user_id:req.user.id} });
+        const result = await Cart.sum('count', {where:{ user_id:req.user.id} })
+        console.log(result);
+        return res.status(200).json({count:result})
+    }catch(e){
+        console.log(e);
+        return res.status(400).json({e})
+    }
+
+}
+const forgetPassword = async(req,res)=>{
+    try{
+        const user=await User.findOne({where:{ email:req.body.email}})
+        
+        if(user){
+            const secret = config.JWT_TOKEN+user.password
+            const payload = {
+                email:user.email,
+                id:user.id
+            }
+            let token = jwt.sign(resl, JWT_TOKEN, { expiresIn: '60m' });
+            const token = jwt.sign(payload,secret,{expiresIn:'15m'})
+            console.log(token);
+            const link = `http://localhost:3000/reset-password/${user.id}/${token}`
+            console.log(link);
+
+            let details = {
+                from:config.AUTH_USER,
+                to:req.body.email,
+                subject:'Resest Password',
+                text:'Click the link to reset password '+ link
+            }
+            mailTransporter.sendMail(details,err=>{
+                if(err){
+    
+                    console.log(err,"Error........");
+                }
+                else{
+                    console.log("Mail send Successfully........");
+                }
+            })
+
+            return res.status(200).json({data:'reset mail send to your mail'})
+        }else{
+            return res.status(400).json({data:'No such email exist'})
+        }
+
+    }catch(e){
+        return res.status(400).json({data:'error'})
+    }
+
+}
+
+const resetPassword = async(req,res)=>{
+    try{
+        const {body} = req         
+        const reqData = ['password','confirm_password']
+    
+        reqData.forEach(element => {
+            if(!body[element] ||body[element] === null) 
+            throw {message:'Field Missing '+ element };
+        });
+         if(body.password !== body.confirm_password) {
+            throw {message:'Password doesnot match '+ element };
+        }    
+        const salt =  bcrypt.genSaltSync(10)
+        const hash = bcrypt.hashSync(req.body.password,salt)
+        body.password_salt = salt 
+        body.password = hash
+        console.log(req.body);
+        await User.update({'password':body.password,'password_salt':body.password_salt},{where:{'id':req.body.id}})
+
+    }catch(e){
+        console.log(e);
+        return res.status(400).json({data:'error'})
+    }
+
+}
+export default {
+    signUp,login,forgetPassword,resetPassword,
+    listUsers,addUser,getRole,updateUser,deleteUser,
+    addorUpdateCart,listcartItems,deleteCart,
+    addOrder,listOrder,getCount
+    }

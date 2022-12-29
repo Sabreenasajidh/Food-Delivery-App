@@ -6,6 +6,8 @@ import  authToken from '../middleware/check_Auth.js'
 
 router.post('/signup',userController.signUp)
 router.post('/login',userController.login)
+router.post('/forgetpassword',userController.forgetPassword)
+router.post('/resetpassword',userController.resetPassword)
 
 
 router.get('/',authToken,userController.listUsers) //list all users #admin
@@ -21,6 +23,7 @@ router.post('/cart/create',authToken,userController.addorUpdateCart)
 router.get('/cart',authToken,userController.listcartItems)
 router.put('/cart/update',authToken,userController.addorUpdateCart)
 router.delete('/cart/delete',authToken,userController.deleteCart)
+router.get('/cart/count',authToken,userController.getCount)
 
 
 router.post('/order/add',authToken,userController.addOrder)

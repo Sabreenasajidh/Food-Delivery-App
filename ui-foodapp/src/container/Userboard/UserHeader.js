@@ -1,23 +1,39 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Avatar from '@material-ui/core/Avatar';
 import Cookies from '../../helpers/cookie';
 import Button from '@material-ui/core/Button';
 import { useNavigate } from 'react-router';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining'
+import logo from './delivery.png'; // Tell webpack this JS file uses this image
+import {useDispatch } from 'react-redux';
 
 
-function UserHeader() {
+
+function UserHeader(props) {
+  const {badge,onAdd,onDelete} = props;
+  const dispatch = useDispatch()
     const nav =useNavigate()
-    const [state,setState] = useState(false)
+    
+    // const [state,setState] = useState(false)
+    // const [count,setCount] = useState(0)
 
-    const user = Cookies.getCookie('userIn')
-    console.log(user);
-    const showList= ()=>{
-      setState(true)
-    }
-    const hideList = ()=>{
-      setState(false)
-    }
+    // useEffect(()=>{
+    //   badge()
+    // },[count])
+
+    // const badge = async()=>{
+    //   const dd = await dispatch.cartModel.getCount()
+    //   console.log(dd);
+    //   setCount(dd.data)
+    // }
+    const user = JSON.parse(Cookies.getCookie('userIn'))
+    // const showList= ()=>{
+    //   setState(true)
+    // }
+    // const hideList = ()=>{
+    //   setState(false)
+    // }
 
     const logout = ()=>{
      Cookies.removeCookie('userIn',{path:'/'}) 
@@ -34,22 +50,25 @@ function UserHeader() {
      const homePage = ()=>{
       nav('/customer')
      }
+     const profile = ()=>{
+      nav('/profile')
+    }
    return (
-
-    <div className="navbar">
-      <li onClick = {homePage}>Home</li>
-      <li>{user.first_name}</li>
-  <div className="dropdown">
-      <Avatar className="dropbtn" />
-      {/* <i class="fa fa-caret-down"></i> */}
-    
-    <div className="dropdown-content">
-    <li onClick = {listCartItems}> <ShoppingCartIcon/></li>
-    <li onClick = {myOrder}>My Orders</li>
-    <li onClick = {logout}>LOGOUT</li>
-    </div>
-  </div> 
-</div>
+      <div class="user-topnav" >
+        <li onClick = {homePage}>Home</li>
+        <span><img src = {logo}  /></span>
+        <li onClick = {listCartItems} className="cart"> <ShoppingCartIcon/><span class="badge">{badge}</span></li>
+        
+        <div class="dropdown">
+          <button class="dropbtn"><span>{user.first_name}</span><Avatar /> 
+          </button>
+          <div class="dropdown-content">
+            <li onClick = {profile}>Profile</li>
+            <li onClick = {myOrder}>My Orders</li>
+            <li onClick = {logout}>Logout</li>
+          </div>
+        </div> 
+      </div>
    )
 }
 

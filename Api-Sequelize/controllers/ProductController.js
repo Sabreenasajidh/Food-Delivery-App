@@ -1,9 +1,10 @@
 import Product from "../models/Product.js";
 import Category from "../models/Category.js";
 import Sequelize from 'sequelize';
-import path from 'path'
-
 const Op = Sequelize.Op;
+import path from 'path'
+import Cart from "../models/Cart.js";
+
 
 const AddProduct = async(req,res)=>{
     try{
@@ -29,9 +30,9 @@ const AddProduct = async(req,res)=>{
 }
 const ListProduct = async(req,res)=>{
     try{
-        console.log(req.query.limit);
-        const limit = parseInt(req.query.limit)
-        const offset = parseInt(req.query.offset)
+        console.log(req.query)
+        const limit = req.query.limit
+        const offset = req.query.offset
         const category_id = req.query.category_id
         const pro_status = req.query.status
         const searchdata = req.query.searchdata
@@ -60,14 +61,76 @@ const ListProduct = async(req,res)=>{
                 }
             }
         }
-        const { count, rows } = await Product.findAndCountAll({
-            offset:offset,
-            limit:limit,
-            attributes: ['id','category_id','name','description','status','price','image'],
-            include:[{ model: Category,attributes:["name"]}],
-            where:where_con
-          });
-    return res.status(200).json({data:rows,count:count,category_name:category_name.name})
+        console.log(where_con);
+        if(limit && offset){
+            const { count, rows } = await Product.findAndCountAll({
+                offset:parseInt(offset),
+                limit:parseInt(limit),
+                attributes: ['id','category_id','name','description','status','price','image'],
+                include:[
+                    { model: Cart,attributes:["count"],where:{user_id:req.user.id},required:false},
+                    { model: Category,attributes:["name"]},
+                ],
+                where:where_con
+            });
+            
+            console.log(rows,"here");
+            
+                      
+                return res.status(200).json({data:rows,count:count,category_name:category_name.name})
+        }else{
+            const { count, rows } = await Product.findAndCountAll({
+                attributes: ['id','title','description','maximum_attendee','status'],
+                include:[
+                    { model: Cart,attributes:["count"],where:{user_id:req.user.id},required:false},
+                    { model: Category,attributes:["name"]},
+                ],
+                where:where_con
+            });
+
+            let op = rows.map(elem=>{ 
+                return {
+                    id:elem.id,
+                    category_id : elem.category_id,
+                    name:elem.name,
+                    description:elem.description,
+                    status:elem.status,
+                    price:elem.price,
+                    image:elem.image,
+                    prod_count:elem.Carts[0]
+                }
+            })
+            
+              
+        return res.status(200).json({data:op,count:count,category_name:category_name.name})
+
+        }
+  
+    //     const { count, rows } = await Product.findAndCountAll({
+    //         offset:offset,
+    //         limit:limit,
+    //         attributes: ['id','category_id','name','description','status','price','image'],
+    //         include:[
+    //             { model: Cart,attributes:["count"],where:{user_id:req.user.id},required:false},
+    //             { model: Category,attributes:["name"]},
+    //         ],
+    //         where:where_con
+    //       });
+    //       let op = rows.map(elem=>{ 
+    //         return {
+    //             id:elem.id,
+    //             category_id : elem.category_id,
+    //             name:elem.name,
+    //             description:elem.description,
+    //             status:elem.status,
+    //             price:elem.price,
+    //             image:elem.image,
+    //             prod_count:elem.Carts[0]
+    //         }
+    //     })
+        
+          
+    // return res.status(200).json({data:op,count:count,category_name:category_name.name})
 
     }catch(e){
         console.log(e);

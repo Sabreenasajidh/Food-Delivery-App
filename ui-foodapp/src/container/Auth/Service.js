@@ -20,5 +20,25 @@ const result  =  api().post(`/api/user/signup`,data).then(value =>{
 })
 return result
 }
-export {loginService,signupServive}
+
+const forgetPassword =  async (data)=>{
+
+    const result  =  api().post(`/api/user/forgetpassword`,data).then(value =>{
+        return value.data 
+    }).catch((err)=>{
+         return err.response.data
+    })
+    return result
+}
+
+const resetPassword =  async (data)=>{
+
+    const result  =  api().post(`/api/user/resetpassword`,data).then(value =>{
+        return value.data 
+    }).catch((err)=>{
+         return err.response.data
+    })
+    return result
+    }
+export {loginService,signupServive,forgetPassword,resetPassword}
 

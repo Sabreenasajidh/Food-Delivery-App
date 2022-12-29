@@ -49,6 +49,28 @@ const  login = {
             catch (e) {
                 console.log(e)
             }
+        },
+        async forgetpassword(value){
+            console.log(value);
+            let response =  await service.forgetPassword(value);
+            console.log(response);
+            // if(response.data){
+                toaster.successToast(response.data)
+            // }
+            // else{
+            //     toaster.errorToast(response.response.data.error)
+            //   }
+        },
+        async resetpassword(value){
+            console.log(value);
+            let response =  await service.resetPassword(value);
+            console.log(response);
+            // // if(response.data){
+            //     toaster.successToast(response.data)
+            // }
+            // else{
+            //     toaster.errorToast(response.response.data.error)
+            //   }
         }
     }
 }

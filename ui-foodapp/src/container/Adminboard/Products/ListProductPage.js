@@ -34,7 +34,7 @@ function ListProducts() {
         console.log(newparams);
         const product = await dispatch.productModel.getProducts(newparams);
         console.log(product.data,"++++++++++++++++");
-        setData(product.data)
+        setData(product)
         const total = product.count;
         setpageCount(Math.ceil(total / limit));
     }
@@ -132,7 +132,7 @@ function ListProducts() {
             <h2>No data to display</h2>:
             (
                 <div className="prod-table">
-            <table>
+             <table>
                 <tr>
                 <th>Name</th>
                 <th>Description</th>
@@ -142,14 +142,14 @@ function ListProducts() {
                 <th>Action</th>
                 </tr>
                 
-                    {data.map((val, key) => {
+                    {data.data.map((val, key) => {
                 return (
                     <tr key={key}>
                     <td>{val.name}</td>
-                    <td>{val.description}</td>
+                     <td>{val.description}</td>
                     <td>{val.status}</td>
-                    <td>{val.category.name}</td>
-                    <td>{val.price}</td>
+                     <td>{val.category.name}</td>
+                  <td>{val.price}</td>
                     <td>
                     <button className="edit" onClick={() => { editproduct(val) }}>Edit</button>
                     <button className="delete" onClick = {() => { deleteProduct(val) }}>Delete</button>
@@ -157,35 +157,12 @@ function ListProducts() {
                     </tr> 
                 )
                 })}
-            </table>      
+            </table>       
             <div className = "page">
           <Stack spacing={2}>
             <Pagination count={pageCount} shape="rounded"  onChange={handlePageClick} color="primary"/>
           </Stack>
           </div>       
-            
-        
-            {/* <div className='pagination'>
-                <ReactPaginate
-                previousLabel={"Previous"}
-                nextLabel={"Next"}
-                breakLabel={"..."}
-                pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={3}
-                onPageChange={handlePageClick}
-                containerClassName={"pagination justify-content-center"}
-                pageClassName={"page-item"}
-                pageLinkClassName={"page-link"}
-                previousClassName={"page-item"}
-                previousLinkClassName={"page-link"}
-                nextClassName={"page-item"}
-                nextLinkClassName={"page-link"}
-                breakClassName={"page-item"}
-                breakLinkClassName={"page-link"}
-                activeClassName={"active"}
-                />
-            </div> */}
             </div>
             )
             }

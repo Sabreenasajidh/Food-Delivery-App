@@ -7,82 +7,49 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 const limit = 3
 
-function UserSidebar() {
+function UserSidebar(props) {
+  const {categoryname,categorylength,onAdd,onDelete} = props
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [categoryName,setCategoryName] =  useState([])
-    const[categoryLength,setCategoryLength] = useState(0)
 
-     const [offset,setOffset] = useState(0)
-     const[params,setParams] = useState({offset:offset,limit:limit})
+     const[params,setParams] = useState({})
      const [productlist,setProductlist]=useState([])
-    const [pageCount, setpageCount] = useState(0);
-    const [isHovering, setIsHovering] = useState('');
-    
+     
     useEffect(()=>{
       productList()
-      categoryname()
     },[])
 
     
     const productList = async()=>{
       let newparams = new URLSearchParams(params).toString();
       const product = await dispatch.productModel.getProducts(newparams);
-      console.log(product);
       setProductlist(product)
-      const total = product.count;
-      setpageCount(Math.ceil(total / limit));
     }
     
-    const handlePageClick = async(data)=>{
-       let offset = (data.target.textContent -1) * limit
-      // let offset =   data.selected * limit
-      console.log(offset);
-
-      setOffset(offset)
-      params.offset = offset
-      params.limit = limit
-      setParams(params)
+    const categoryClick = async(item)=>{
+      const category_id =  item
+      params.category_id = category_id
+      console.log(params,"params");
       await productList(params)
-      }
-    const categoryname = async()=>{
-        const result = await dispatch.productModel.getCategoryName()  
-        setCategoryName(result.data) 
-        setCategoryLength(result.data.length)
-    }
-    const categoryClick = async(index,item)=>{
-     // setIsHovering('active');
-       console.log(index,item);
-       
-
-      // const category_id =  e.target.value
-      // params.category_id = category_id
-      // setParams(params)
-      // setOffset(0)
-      // params.offset = offset
-      // console.log(params,"params");
-      // await productList(params)
     } 
-    const className = (index)=>{
-      return 'active'
-    } 
+     
     
     
   return (
-    <div >
+    <div>
         <div id="mySidenav" className="usersidebar">
-        <h2>Recomended({categoryLength})</h2>
+        <h2>Recomended({categorylength})</h2>
          <div className = "category">
-            {categoryName.map((item, index) =>
-                <li className={isHovering ? 'active' : ''} value={item.id} onClick= {()=>{categoryClick(index,item.id)}}>{item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase()}</li>)} 
+         <ul><li onClick= {()=>{categoryClick(0)}}>All</li></ul>
+            {categoryname.map((item, index) =>
+            <ul>
+                
+                <li value={item.id} onClick= {()=>{categoryClick(item.id)}}>{item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase()}</li>
+                </ul>)} 
           </div> 
         </div>
-        <ListProducts data ={productlist} count = {pageCount}/>
-          <div className = "page">
-          <Stack spacing={2}>
-            <Pagination count={pageCount} shape="rounded"  onChange={handlePageClick} color="primary"/>
-          </Stack>
-          </div>
+         <ListProducts productlist ={productlist} onAdd={onAdd} onDelete={onDelete}/>
+         
             
         </div>
 

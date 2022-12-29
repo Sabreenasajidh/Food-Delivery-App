@@ -12,13 +12,31 @@ import validate from './SigninValidation'
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { ToastContainer } from 'react-toastify';
+import {LoginSocialGoogle,LoginSocialFacebook} from 'reactjs-social-login'
+
+// CUSTOMIZE ANY UI BUTTON
+import { GoogleLoginButton,FacebookLoginButton} from 'react-social-login-buttons'
+import { useState } from 'react';
 
 const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [profile, setProfile] = useState()
+    const [provider, setProvider] = useState('')
+
+  // const onLoginStart = () => {
+  //   alert('login start')
+  // }
+
+  // const onLogoutSuccess = ()=> {
+  //   setProfile(null)
+  //   setProvider('')
+  //   alert('logout success')
+  // }
 
     const onSubmit =async (value)=>{
        const userInfo=await dispatch.authModel.userLogin(value) 
+       console.log("OOOOOOOOOOOO");
        console.log(userInfo.role);
        //Cookies.setCookie('userIn,userInfo')
 
@@ -29,6 +47,15 @@ const Login = () => {
             navigate('/admin')
         }
     }
+    // const handleLogin = (googleData)=>{
+    //   console.log(googleData);
+    // }
+    // const handleFailure = (res)=>{
+    //   console.log(res);
+    // }
+    // const responseGoogle = (response) => {
+    //   console.log(response);
+    // }
 
     const formik = useFormik({
     initialValues: {
@@ -89,7 +116,7 @@ const Login = () => {
     
         <Grid container>
             <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/forgottenpassword" variant="body2">
                 Forgot password?
                 </Link>
             </Grid>
@@ -99,7 +126,52 @@ const Login = () => {
                 </Link>
             </Grid>
         </Grid>
-          </form> 
+          </form>
+
+          <LoginSocialGoogle
+            client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''}
+            // onLoginStart={onLoginStart}
+            onResolve={({ provider, data }) => {
+              console.log("RRRRRRRR",provider,data);
+              // setProvider(provider)
+              // setProfile(data)
+            }}
+            onReject={(err) => {
+              console.log(err)
+            }}
+          >
+            <GoogleLoginButton />
+          </LoginSocialGoogle> 
+
+          <LoginSocialFacebook
+            appId='813651509629191'//{process.env.REACT_APP_FB_APP_ID || ''}
+            // onLoginStart={onLoginStart}
+            onResolve={({ provider, data }) => {
+              // setProvider(provider)
+              // setProfile(data)
+              console.log(provider,data);
+            }}
+            onReject={(err) => {
+              console.log(err)
+            }}
+          >
+            <FacebookLoginButton />
+          </LoginSocialFacebook>
+
+          {/* <GoogleLogin
+            clientId="1000657371640-rlm9fet36tv70gmp8d0r5v7g80c7jjk0.apps.googleusercontent.com"
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={'single_host_origin'}
+          /> */}
+          {/* <FacebookLogin
+            appId="570923141193101"
+            autoLoad={true}
+            fields="name,email,picture"
+            onClick={componentClicked}
+            callback={responseFacebook} 
+          /> */}
     </div>
     </div>
   )

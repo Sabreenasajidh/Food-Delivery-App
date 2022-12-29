@@ -11,6 +11,8 @@ import ListUsers from '../container/Adminboard/Users/ListUsers';
 import NewUser from '../container/Adminboard/Users/AddUser';
 import EditUser from '../container/Adminboard/Users/EditUser';
 import Cart from '../container/Userboard/Cart'
+import ForgotPassword from '../container/Auth/ForgotPassword';
+import ResetPassword from '../container/Auth/ResetPassword';
 
 import ListProducts from '../container/Adminboard/Products/ListProductPage';
 import AddProduct from '../container/Adminboard/Products/AddProductPage'
@@ -46,6 +48,8 @@ function Rout() {
             <Route path="/" element = {<PublicRoute component= {<Login />} />} />
             <Route path="/login" element = {<PublicRoute component= {<Login />} />} />
             <Route path="/signup"  element = {<PublicRoute component={<Signup/>} />} />
+            <Route path="/forgottenpassword"  element = {<PublicRoute component={<ForgotPassword/>} />} />
+            <Route path="/reset-password/:id/:token"  element = {<PublicRoute component={<ResetPassword/>} />} />
             <Route path= "*" element = {<Home />}/> 
           </Routes>
 
